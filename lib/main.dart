@@ -1,5 +1,6 @@
-import 'package:calibre/Components/WeaponShopCard.dart';
+import 'package:calibre/Components/Mock/WeaponShopCard.dart';
 import 'package:calibre/Model/Weapon.dart';
+import 'package:calibre/Screens/WeaponShopScreen.dart';
 import 'package:flutter/material.dart';
 
 Future<void> main () async {
@@ -16,31 +17,18 @@ class MainApp extends StatelessWidget {
 
     return MaterialApp(
       theme: ThemeData(
-        brightness: Brightness.dark
+        brightness: Brightness.light,
+
       ),
       home: Scaffold(
-        drawer: const Drawer(
-          child: Column(
-          
-          ),
-        ),
         appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {
-            },),
-          title: const Text("Calibre"),
-          backgroundColor: const Color.fromARGB(255, 36, 36, 36),
+          backgroundColor: Colors.red,
+          
         ),
-        body:const Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,            
-            children: [
-              Row()
-            ]
+        body: Column(
+          children: [WeaponShopCardMock()],
         ),
-      ),
-    )
+      )
     );
   }
 }

@@ -1,22 +1,16 @@
 // ignore_for_file: file_names
-import 'package:calibre/Model/Weapon.dart';
 import 'package:flutter/material.dart';
 
-class WeaponShopCard extends StatefulWidget {
-  final Weapon weapon;
-  const WeaponShopCard({super.key, required this.weapon});
+class WeaponShopCardMock extends StatefulWidget {
+  const WeaponShopCardMock({super.key});
 
   @override
   State<StatefulWidget> createState() => _WeaponShopCardState();
 }
 
-class _WeaponShopCardState extends State<WeaponShopCard> {
+class _WeaponShopCardState extends State<WeaponShopCardMock> {
   @override
   Widget build(BuildContext context) {
-
-    String makeURL;
-    String weaponURL;
-
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.25,
       child: Card(
