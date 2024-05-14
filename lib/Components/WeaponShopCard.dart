@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 import 'package:calibre/Model/Weapon.dart';
 import 'package:flutter/material.dart';
+import 'package:calibre/constants.dart';
 
 class WeaponShopCard extends StatefulWidget {
   final Weapon weapon;
@@ -14,8 +15,8 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
   @override
   Widget build(BuildContext context) {
 
-    String makeURL;
-    String weaponURL;
+    String makeURL = widget.weapon.WeaponMake.replaceAll(" ", "%20");
+    String weaponURL = widget.weapon.WeaponName.replaceAll(" ", "%20");
 
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.25,
@@ -30,32 +31,32 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
               children: [
                 Center(
                   child: Image.network(
-                    "https://localhost:7069/api/Test/GetWeaponImage?Name=TX-15%20DML",
+                    constants.endpoint + constants.endpointGetWeaponPicture + weaponURL,
                     fit: BoxFit.fitWidth,
                   ),
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Row(
+                    Row(
                       children: [
                         Text(
-                          "AR",
-                          style: TextStyle(
+                          widget.weapon.WeaponTypeShort,
+                          style: const TextStyle(
                               fontFamily: "Inter",
                               fontWeight: FontWeight.w900,
                               fontSize: 20,
                               color: Color.fromARGB(255, 153, 153, 153)),
                         ),
-                        Spacer(),
-                        Text(
+                        const Spacer(),
+                        const Text(
                           "PKR ",
                           style: TextStyle(
                               fontFamily: "Inter",
                               fontSize: 16,
                               color: Color.fromARGB(255, 153, 153, 153)),
                         ),
-                        Text(
+                        const Text(
                           "192,513",
                           style: TextStyle(
                               fontFamily: "Inter Bold",
@@ -79,17 +80,17 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
                                     height: MediaQuery.of(context).size.height *
                                         0.06,
                                     child: Image.network(
-                                        "https://localhost:7069/api/Test/GetWeaponMakeImage?Name=Kalashnikov%20Concern")),
-                                const Text(
-                                  "TX-15 DML",
-                                  style: TextStyle(
+                                        constants.endpoint + constants.endpointGetWeaponMakePicture + makeURL)),
+                                Text(
+                                  widget.weapon.WeaponName,
+                                  style: const TextStyle(
                                       fontFamily: "Inter Bold",
                                       fontSize: 18,
                                       color: Color.fromARGB(255, 24, 24, 24)),
                                 ),
-                                const Text(
-                                  "United States of America",
-                                  style: TextStyle(
+                                Text(
+                                  widget.weapon.WeaponOrigin,
+                                  style: const TextStyle(
                                       fontFamily: "Inter",
                                       fontSize: 12,
                                       color:
@@ -98,11 +99,11 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
                               ],
                             ),
                           ),
-                          const Column(
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(
+                              const Text(
                                 "CAL",
                                 style: TextStyle(
                                     fontFamily: "Inter SemiBold",
@@ -110,8 +111,8 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
                                     color: Color.fromARGB(255, 153, 153, 153)),
                               ),
                               Text(
-                                "5.56x45 NATO",
-                                style: TextStyle(
+                                widget.weapon.WeaponCaliber,
+                                style: const TextStyle(
                                     fontFamily: "Inter Bold",
                                     fontSize: 14,
                                     color: Colors.orange),
@@ -124,7 +125,7 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.end,
                                       children: [
-                                        Text(
+                                        const Text(
                                           "ROF",
                                           style: TextStyle(
                                               fontFamily: "Inter SemiBold",
@@ -133,8 +134,8 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
                                                   255, 153, 153, 153)),
                                         ),
                                         Text(
-                                          "650 R/M",
-                                          style: TextStyle(
+                                          "${widget.weapon.rof} R/M",
+                                          style: const TextStyle(
                                               fontFamily: "Inter Bold",
                                               fontSize: 14,
                                               color: Color.fromARGB(
@@ -142,14 +143,14 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 16,
                                     ),
                                     Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.end,
                                       children: [
-                                        Text(
+                                        const Text(
                                           "WGT",
                                           style: TextStyle(
                                               fontFamily: "Inter SemiBold",
@@ -158,8 +159,8 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
                                                   255, 153, 153, 153)),
                                         ),
                                         Text(
-                                          "3.605 KG",
-                                          style: TextStyle(
+                                          "${widget.weapon.WeaponWeight} KG",
+                                          style: const TextStyle(
                                               fontFamily: "Inter Bold",
                                               fontSize: 14,
                                               color: Color.fromARGB(

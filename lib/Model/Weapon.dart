@@ -1,17 +1,21 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:convert';
 
 import 'package:http/http.dart' as https;
 import 'package:calibre/constants.dart';
 
 class Weapon {
-  String? WeaponName;
-  String? WeaponCaliber;
-  String? WeaponMake;
-  String? WeaponWeight;
-  int? rof;
-  int? efr;
-  String? WeaponDescription;
-  String? WeaponType;
+  String WeaponName;
+  String WeaponCaliber;
+  String WeaponMake;
+  double WeaponWeight;
+  int rof;
+  int efr;
+  String WeaponDescription;
+  String WeaponType;
+  String WeaponTypeShort;
+  String WeaponOrigin;
 
   Weapon(
       this.WeaponName,
@@ -21,17 +25,22 @@ class Weapon {
       this.rof,
       this.efr,
       this.WeaponDescription,
-      this.WeaponType);
+      this.WeaponType,
+      this.WeaponTypeShort,
+      this.WeaponOrigin);
 
-  Weapon.fromJson(Map<String, dynamic> json) {
-    WeaponName = json["weaponName"];
-    WeaponCaliber = json["weaponCaliber"];
-    WeaponMake = json["weaponMake"];
-    WeaponWeight = json["weaponWeight"];
-    rof = json["rof"];
-    efr = json["efr"];
-    WeaponDescription = json["weaponDescription"];
-    WeaponType = json["weaponType"];
+  factory Weapon.fromJson(Map<dynamic, dynamic> json) {
+    return Weapon(
+        json["weaponName"],
+        json["weaponCaliber"],
+        json["weaponMake"],
+        json["weaponWeight"],
+        json["rof"],
+        json["efr"],
+        json["weaponDescription"],
+        json["weaponType"],
+        json["weaponTypeShort"],
+        json["weaponOrigin"]);
   }
 
   static Future<Weapon> fromName(String name) async {
