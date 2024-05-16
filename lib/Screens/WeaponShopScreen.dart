@@ -8,7 +8,7 @@ class WeaponShopScreen extends StatefulWidget{
 class _WeaponShopScreenState extends State<WeaponShopScreen>{
   @override
   Widget build(BuildContext context) {
-    return Center();
+    return DefaultTabController(length: 11, child: Scaffold());
   }
 
 }

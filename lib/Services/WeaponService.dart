@@ -1,8 +1,5 @@
 // ignore_for_file: file_names
-
 import 'dart:convert';
-import 'dart:html';
-
 import 'package:calibre/Model/Weapon.dart';
 import 'package:calibre/constants.dart';
 import 'package:http/http.dart' as http;
@@ -35,7 +32,20 @@ class WeaponService{
       
     }else{
       return [];
-      throw ArgumentError("Bad Response: No Weapons found!");
+    }
+  }
+
+    static Future<List<Weapon>> getWeaponsByType(String name) async {
+
+    var response = await http.get(Uri.parse(constants.endpoint + constants.endpointGetAllWeaponsByType + name));
+    if(response.statusCode == 200){
+      var json = await jsonDecode(response.body);
+      final weapons = json.map<Weapon>((e) {
+        return Weapon.fromJson(e);
+      }).toList();
+      return weapons;
+    }else{
+      return [];
     }
   }
 

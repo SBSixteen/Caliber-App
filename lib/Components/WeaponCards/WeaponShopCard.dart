@@ -1,4 +1,6 @@
 // ignore_for_file: file_names
+import 'dart:math';
+
 import 'package:calibre/Model/Weapon.dart';
 import 'package:flutter/material.dart';
 import 'package:calibre/constants.dart';
@@ -11,12 +13,14 @@ class WeaponShopCard extends StatefulWidget {
   State<StatefulWidget> createState() => _WeaponShopCardState();
 }
 
-class _WeaponShopCardState extends State<WeaponShopCard> {
+class _WeaponShopCardState extends State<WeaponShopCard>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
-
     String makeURL = widget.weapon.WeaponMake.replaceAll(" ", "%20");
     String weaponURL = widget.weapon.WeaponName.replaceAll(" ", "%20");
+    int price = 192513;
+    int newPrice = (192513.0 * (Random().nextDouble() * 0.5 + 0.8)).toInt();
 
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.25,
@@ -31,7 +35,9 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
               children: [
                 Center(
                   child: Image.network(
-                    constants.endpoint + constants.endpointGetWeaponPicture + weaponURL,
+                    constants.endpoint +
+                        constants.endpointGetWeaponPicture +
+                        weaponURL,
                     fit: BoxFit.fitWidth,
                   ),
                 ),
@@ -39,6 +45,7 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           widget.weapon.WeaponTypeShort,
@@ -56,12 +63,32 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
                               fontSize: 16,
                               color: Color.fromARGB(255, 153, 153, 153)),
                         ),
-                        const Text(
-                          "192,513",
-                          style: TextStyle(
-                              fontFamily: "Inter Bold",
-                              fontSize: 24,
-                              color: Color.fromARGB(255, 2, 107, 0)),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              constants.formatter.format(newPrice),
+                              style: TextStyle(
+                                  fontFamily: "Inter Bold",
+                                  fontSize: 24,
+                                  color: (newPrice < price)
+                                      ? const Color.fromARGB(255, 2, 107, 0)
+                                      : Colors.red),
+                            ),
+                            Transform.translate(
+                              offset: const Offset(0, -4),
+                              child: Text(
+                                constants.formatter.format(price),
+                                style: const TextStyle(
+                                    fontFamily: "Inter",
+                                    fontSize: 12,
+                                    decoration: TextDecoration.lineThrough,
+                                    decorationColor: Color.fromARGB(255, 153, 153, 153),
+                                    color: Color.fromARGB(255, 153, 153, 153)),
+                              ),
+                            ),
+                          ],
                         )
                       ],
                     ),
@@ -79,8 +106,9 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
                                 SizedBox(
                                     height: MediaQuery.of(context).size.height *
                                         0.06,
-                                    child: Image.network(
-                                        constants.endpoint + constants.endpointGetWeaponMakePicture + makeURL)),
+                                    child: Image.network(constants.endpoint +
+                                        constants.endpointGetWeaponMakePicture +
+                                        makeURL)),
                                 Text(
                                   widget.weapon.WeaponName,
                                   style: const TextStyle(
@@ -183,4 +211,7 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
           )),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
