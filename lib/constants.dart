@@ -5,17 +5,19 @@ import 'package:intl/intl.dart';
 import 'Components/BottomNavBar/SingleElement.dart';
 
 class constants {
-
   static var formatter = NumberFormat('###,000');
+
+  static int currentweaponsindex = 0;
 
   static String endpoint = "https://localhost:7069/";
 
-  static String endpointGetWeapon = "api/Test/GetWeapon?WeaponName=";
-  static String endpointGetAllWeapons = "api/Test/GetAllWeapons";
-  static String endpointGetWeaponPicture = "api/Test/GetWeaponImage?Name=";
+  static String endpointGetWeapon = "api/Weapon/GetWeapon?WeaponName=";
+  static String endpointGetAllWeapons = "api/Weapon/GetAllWeapons";
+  static String endpointGetWeaponPicture = "api/Weapon/GetWeaponImage?Name=";
   static String endpointGetWeaponMakePicture =
-      "api/Test/GetWeaponMakeImage?Name=";
-  static String endpointGetAllWeaponsByType = "api/Test/GetAllWeaponsByType?type=";
+      "api/Weapon/GetWeaponMakeImage?Name=";
+  static String endpointGetAllWeaponsByType =
+      "api/Weapon/GetAllWeaponsByType?type=";
 
   // Bottom Nav Bar Elements
   // ignore: non_constant_identifier_names
@@ -40,16 +42,25 @@ class constants {
 
   static List<Tab> WeaponScreenTabs = [
     const Tab(
+      child: Text('Everything'),
+    ),
+    const Tab(
       child: Text('Assault Rifles'),
     ),
     const Tab(
       child: Text('Assault Carbines'),
     ),
     const Tab(
+      child: Text('Bolt Action Rifles'),
+    ),
+    const Tab(
       child: Text('Designated Marksman Rifles'),
     ),
     const Tab(
-      child: Text('Submachine Guns'),
+      child: Text('Light Machine Guns'),
+    ),
+    const Tab(
+      child: Text('Personal Defence Weapon'),
     ),
     const Tab(
       child: Text('Pistols'),
@@ -58,7 +69,7 @@ class constants {
       child: Text('Shotguns'),
     ),
     const Tab(
-      child: Text('Sniper Rifles'),
+      child: Text('Submachine Guns'),
     ),
   ];
 }

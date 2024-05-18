@@ -1,3 +1,4 @@
+import 'package:calibre/Components/WeaponCards/DiscountedWeaponShopCard.dart';
 import 'package:calibre/Components/WeaponCards/WeaponShopCard.dart';
 import 'package:calibre/Services/WeaponService.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +14,9 @@ class WeaponTypeList extends StatefulWidget {
 class _WeaponTypeListState extends State<WeaponTypeList>  with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    print("API Called!");
     return FutureBuilder(
-      future: WeaponService.getWeaponsByType(widget.type),
+      future: widget.type == "" ? WeaponService.getWeapons() : WeaponService.getWeaponsByType(widget.type),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -29,7 +31,7 @@ class _WeaponTypeListState extends State<WeaponTypeList>  with AutomaticKeepAliv
           }
           return ListView.builder(
               itemBuilder: (context, index) {
-                return WeaponShopCard(weapon: snapshot.data![index]);
+                return snapshot.data![index].WeaponDiscount != 1.0 ? WeaponShopCard(weapon: snapshot.data![index]) : DiscountedWeaponShopCard(weapon: snapshot.data![index]);
               },
               itemCount: snapshot.data!.length);
         }

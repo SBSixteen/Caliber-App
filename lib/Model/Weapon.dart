@@ -16,6 +16,8 @@ class Weapon {
   String WeaponType;
   String WeaponTypeShort;
   String WeaponOrigin;
+  double WeaponPrice;
+  double WeaponDiscount;
 
   Weapon(
       this.WeaponName,
@@ -27,7 +29,9 @@ class Weapon {
       this.WeaponDescription,
       this.WeaponType,
       this.WeaponTypeShort,
-      this.WeaponOrigin);
+      this.WeaponOrigin,
+      this.WeaponPrice,
+      this.WeaponDiscount);
 
   factory Weapon.fromJson(Map<dynamic, dynamic> json) {
     return Weapon(
@@ -40,7 +44,9 @@ class Weapon {
         json["weaponDescription"],
         json["weaponType"],
         json["weaponTypeShort"],
-        json["weaponOrigin"]);
+        json["weaponOrigin"],
+        json["weaponPrice"],
+        json["weaponDiscount"]);
   }
 
   static Future<Weapon> fromName(String name) async {
