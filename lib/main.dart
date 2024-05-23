@@ -1,5 +1,5 @@
 import 'package:calibre/Components/BottomNavBar/BottomNavBar.dart';
-import 'package:calibre/Components/WeaponTypeList/WeaponTypeList.dart';
+import 'package:calibre/Components/Lists/WeaponTypeList.dart';
 import 'package:calibre/Screens/WeaponShopScreen.dart';
 import 'package:calibre/constants.dart';
 import 'package:flutter/material.dart';

@@ -11,27 +11,33 @@ class WeaponTypeList extends StatefulWidget {
   State<StatefulWidget> createState() => _WeaponTypeListState();
 }
 
-class _WeaponTypeListState extends State<WeaponTypeList>  with AutomaticKeepAliveClientMixin {
+class _WeaponTypeListState extends State<WeaponTypeList>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
-    print("API Called!");
     return FutureBuilder(
-      future: widget.type == "" ? WeaponService.getWeapons() : WeaponService.getWeaponsByType(widget.type),
+      future: widget.type == ""
+          ? WeaponService.getWeapons()
+          : WeaponService.getWeaponsByType(widget.type),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.connectionState == ConnectionState.done) {
-          print(snapshot.data);
           if (snapshot.data!.isEmpty) {
             return const Center(
                 child: Text(
               "There are no weapons of this type!",
-              style: TextStyle(fontFamily: "Inter Bold", fontSize: 18.0, color: Color.fromARGB(255, 128, 128, 128)),
+              style: TextStyle(
+                  fontFamily: "Inter Bold",
+                  fontSize: 18.0,
+                  color: Color.fromARGB(255, 128, 128, 128)),
             ));
           }
           return ListView.builder(
               itemBuilder: (context, index) {
-                return snapshot.data![index].WeaponDiscount != 1.0 ? WeaponShopCard(weapon: snapshot.data![index]) : DiscountedWeaponShopCard(weapon: snapshot.data![index]);
+                return snapshot.data![index].WeaponDiscount != 1.0
+                    ? WeaponShopCard(weapon: snapshot.data![index])
+                    : DiscountedWeaponShopCard(weapon: snapshot.data![index]);
               },
               itemCount: snapshot.data!.length);
         }
@@ -39,7 +45,7 @@ class _WeaponTypeListState extends State<WeaponTypeList>  with AutomaticKeepAliv
       },
     );
   }
-  
+
   @override
   bool get wantKeepAlive => true;
 }

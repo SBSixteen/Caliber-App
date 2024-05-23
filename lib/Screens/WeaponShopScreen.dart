@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 import '../Components/BottomNavBar/BottomNavBar.dart';
-import '../Components/WeaponTypeList/WeaponTypeList.dart';
+import '../Components/Lists/WeaponTypeList.dart';
 import '../constants.dart';
 
 class WeaponShopScreen extends StatefulWidget {

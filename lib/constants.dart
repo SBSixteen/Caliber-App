@@ -11,6 +11,7 @@ class constants {
 
   static String endpoint = "https://localhost:7069/";
 
+  //Weapons
   static String endpointGetWeapon = "api/Weapon/GetWeapon?WeaponName=";
   static String endpointGetAllWeapons = "api/Weapon/GetAllWeapons";
   static String endpointGetWeaponPicture = "api/Weapon/GetWeaponImage?Name=";
@@ -18,6 +19,16 @@ class constants {
       "api/Weapon/GetWeaponMakeImage?Name=";
   static String endpointGetAllWeaponsByType =
       "api/Weapon/GetAllWeaponsByType?type=";
+
+  //Ammuntion
+  static String endpointGetAmmunitionByCaliber =
+      "api/Ammunition/GetAmmunitionByCaliber?caliber=";
+  static String endpointGetAmmunitionPicture =
+      "api/Ammunition/GetAmmunitionImage?caliber=";
+
+  //WeaponStructure
+      static String endpointGetWeaponStructure = 
+      "api/WeaponStructure/GetWeaponStructureOf?weaponName=";
 
   // Bottom Nav Bar Elements
   // ignore: non_constant_identifier_names
@@ -72,4 +83,21 @@ class constants {
       child: Text('Submachine Guns'),
     ),
   ];
+
+  //Styles & Decorations
+  static TextStyle soft = const TextStyle(fontFamily: "Inter", fontSize: 12.0);
+
+  static TextStyle headings = const TextStyle(
+      fontFamily: "Inter SemiBold", fontSize: 24.0, color: Colors.red);
+
+  static TextStyle subheadings = const TextStyle(
+      fontFamily: "Inter", fontSize: 18.0, color: Colors.orange);
+
+  static TextStyle subtlebadnews = const TextStyle(
+      fontFamily: "Inter Bold",
+      fontSize: 18.0,
+      color: Color.fromARGB(255, 128, 128, 128));
+
+  static TextStyle ammunitionVariant = const TextStyle(
+      color: Colors.white, fontFamily: "Inter", fontSize: 12.0);
 }
