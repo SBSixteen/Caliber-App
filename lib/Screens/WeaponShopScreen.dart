@@ -1,5 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../Components/BottomNavBar/BottomNavBar.dart';
@@ -36,8 +37,13 @@ class _WeaponShopScreenState extends State<WeaponShopScreen> {
           ),
           actions: [
             IconButton(onPressed: (){
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => WeaponShopScreen(),));
-            }, icon: const Icon(Icons.refresh_sharp, color: Colors.white,))
+              print(constants.someUser?.email);
+              print(constants.someUser?.displayName);
+              print(constants.someUser?.metadata);
+              FirebaseAuth.instance.signOut();
+              constants.someUser = null;
+            }, icon: const Icon(Icons.exit_to_app)),
+ 
           ],
           bottom: TabBar(
             labelStyle: const TextStyle(

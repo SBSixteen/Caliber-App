@@ -1,5 +1,6 @@
 // ignore_for_file: camel_case_types
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'Components/BottomNavBar/SingleElement.dart';
@@ -100,4 +101,14 @@ class constants {
 
   static TextStyle ammunitionVariant = const TextStyle(
       color: Colors.white, fontFamily: "Inter", fontSize: 12.0);
+
+  //Colors
+  static Color cardBackground = Colors.white; 
+  static Color cardSurfaceTint = Colors.transparent;
+
+  //Theme
+  static Brightness appBrightness = Brightness.light;
+
+  //User
+  static User? someUser;
 }

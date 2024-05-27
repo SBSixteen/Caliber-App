@@ -1,51 +1,96 @@
 import 'package:calibre/Components/WeaponCards/DiscountedWeaponShopCard.dart';
 import 'package:calibre/Components/WeaponCards/WeaponShopCard.dart';
-import 'package:calibre/Services/WeaponService.dart';
+import 'package:calibre/Provider/Weapon_Provider.dart';
+import 'package:calibre/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WeaponTypeList extends StatefulWidget {
+class WeaponTypeList extends ConsumerWidget{
   final String type;
   const WeaponTypeList({required this.type});
 
   @override
-  State<StatefulWidget> createState() => _WeaponTypeListState();
-}
-
-class _WeaponTypeListState extends State<WeaponTypeList>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: widget.type == ""
-          ? WeaponService.getWeapons()
-          : WeaponService.getWeaponsByType(widget.type),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.data!.isEmpty) {
-            return const Center(
-                child: Text(
-              "There are no weapons of this type!",
-              style: TextStyle(
-                  fontFamily: "Inter Bold",
-                  fontSize: 18.0,
-                  color: Color.fromARGB(255, 128, 128, 128)),
-            ));
-          }
-          return ListView.builder(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final weapons = ref.watch(GetWeaponsByTypeProvider(type));
+    return weapons.when(
+      data: (data) {
+        if (data.isEmpty) {
+          return Center(
+              child: Text(
+            "There are no weapons of this type!",
+            style: constants.subtlebadnews,
+          ));
+        } else {
+          return ListView.separated(
+            separatorBuilder: (context, index) {
+              return const SizedBox(height: 18.0,);
+            },
               itemBuilder: (context, index) {
-                return snapshot.data![index].WeaponDiscount != 1.0
-                    ? WeaponShopCard(weapon: snapshot.data![index])
-                    : DiscountedWeaponShopCard(weapon: snapshot.data![index]);
+                return data[index].WeaponDiscount != 1.0
+                    ? WeaponShopCard(weapon: data[index])
+                    : DiscountedWeaponShopCard(weapon: data[index]);
               },
-              itemCount: snapshot.data!.length);
+              itemCount: data.length);
         }
-        throw ArgumentError("Something is wrong");
+      },
+      error: (error, stackTrace) {
+        return Center(
+          child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+              child: Text(
+                "Trouble connecting to Caliber Servers",
+                style: constants.subtlebadnews,
+              )),
+        );
+      },
+      loading: () {
+        return const Center(
+          child: SizedBox(
+            height: 250,
+            width: 250,
+            child: CircularProgressIndicator(
+              color: Colors.red,
+            ),
+          ),
+        );
       },
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
+
+// class _WeaponTypeListState extends State<WeaponTypeList>
+//     with AutomaticKeepAliveClientMixin {
+//   @override
+//   Widget build(BuildContext context) {
+//     return FutureBuilder(
+//       future: widget.type == ""
+//           ? WeaponService.getWeapons()
+//           : WeaponService.getWeaponsByType(widget.type),
+//       builder: (context, snapshot) {
+//         if (snapshot.connectionState == ConnectionState.waiting) {
+//           return const Center(child: CircularProgressIndicator());
+//         } else if (snapshot.connectionState == ConnectionState.done) {
+//           if (snapshot.data!.isEmpty) {
+//             return Center(
+//                 child: Text(
+//               "There are no weapons of this type!",
+//               style: constants.subtlebadnews,
+//             ));
+//           }
+//           return ListView.builder(
+//               itemBuilder: (context, index) {
+//                 return snapshot.data![index].WeaponDiscount != 1.0
+//                     ? WeaponShopCard(weapon: snapshot.data![index])
+//                     : DiscountedWeaponShopCard(weapon: snapshot.data![index]);
+//               },
+//               itemCount: snapshot.data!.length);
+//         }
+//         throw ArgumentError("Something is wrong");
+//       },
+//     );
+//   }
+
+//   @override
+//   bool get wantKeepAlive => true;
+// }

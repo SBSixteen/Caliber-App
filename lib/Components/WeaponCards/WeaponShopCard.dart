@@ -42,8 +42,8 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.25,
           child: Card(
-              surfaceTintColor: Colors.transparent,
-              color: Colors.white,
+              surfaceTintColor: constants.cardSurfaceTint,
+              color: constants.cardBackground,
               elevation: 24.0,
               child: Padding(
                 padding:

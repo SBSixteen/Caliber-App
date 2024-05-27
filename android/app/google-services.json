@@ -1,0 +1,118 @@
+{
+  "project_info": {
+    "project_number": "408851050031",
+    "project_id": "flutter-course-19660",
+    "storage_bucket": "flutter-course-19660.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:408851050031:android:2b0e42c1b8e574744a20da",
+        "android_client_info": {
+          "package_name": "com.example.bro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "408851050031-acqc7arqjg6to9vdvima2i420mrh6rg2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAa7fA4wn0x9Kxi96bh53H3yqSWMDLbWGY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "408851050031-acqc7arqjg6to9vdvima2i420mrh6rg2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "408851050031-cadobc06dqoo8k4q11jvcv7puet7abf9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.nineMmGoBang"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:408851050031:android:5a02009c65925c024a20da",
+        "android_client_info": {
+          "package_name": "com.example.calibre"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "408851050031-acqc7arqjg6to9vdvima2i420mrh6rg2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAa7fA4wn0x9Kxi96bh53H3yqSWMDLbWGY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "408851050031-acqc7arqjg6to9vdvima2i420mrh6rg2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "408851050031-cadobc06dqoo8k4q11jvcv7puet7abf9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.nineMmGoBang"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:408851050031:android:0d347553826c47284a20da",
+        "android_client_info": {
+          "package_name": "com.example.nine_mm_go_bang"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "408851050031-acqc7arqjg6to9vdvima2i420mrh6rg2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAa7fA4wn0x9Kxi96bh53H3yqSWMDLbWGY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "408851050031-acqc7arqjg6to9vdvima2i420mrh6rg2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "408851050031-cadobc06dqoo8k4q11jvcv7puet7abf9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.nineMmGoBang"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

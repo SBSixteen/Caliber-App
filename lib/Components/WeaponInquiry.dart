@@ -1,7 +1,7 @@
 import 'package:calibre/Components/Lists/CompatibleAmmoList.dart';
 import 'package:calibre/Components/Lists/CompatibleAttachmentList.dart';
 import 'package:calibre/Model/Weapon.dart';
-import 'package:calibre/Services/AmmunitionService.dart';
+import 'package:calibre/Provider/Ammunition_Provider.dart';
 import 'package:calibre/constants.dart';
 import 'package:flutter/material.dart';
 

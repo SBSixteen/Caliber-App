@@ -1,6 +1,6 @@
 // ignore_for_file: file_names, must_be_immutable
 
-import 'package:calibre/Services/WeaponStructureService.dart';
+import 'package:calibre/Provider/WeaponStructure_Provider.dart';
 import 'package:calibre/constants.dart';
 import 'package:flutter/material.dart';
 
