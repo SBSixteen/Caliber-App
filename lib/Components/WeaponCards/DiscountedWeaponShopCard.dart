@@ -1,5 +1,5 @@
 // ignore_for_file: file_names
-import 'package:calibre/Components/WeaponInquiry.dart';
+import 'package:calibre/Screens/WeaponInquiry.dart';
 import 'package:calibre/Model/Weapon.dart';
 import 'package:flutter/material.dart';
 import 'package:calibre/constants.dart';

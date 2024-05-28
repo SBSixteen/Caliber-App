@@ -45,15 +45,7 @@ class WeaponTypeList extends ConsumerWidget{
         );
       },
       loading: () {
-        return const Center(
-          child: SizedBox(
-            height: 250,
-            width: 250,
-            child: CircularProgressIndicator(
-              color: Colors.red,
-            ),
-          ),
-        );
+        return constants.bigLoader;
       },
     );
   }

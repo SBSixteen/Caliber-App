@@ -1,0 +1,101 @@
+// ignore_for_file: file_names
+
+import 'dart:convert';
+
+import 'package:calibre/Model/Attachment.dart';
+import 'package:calibre/constants.dart';
+import 'package:http/http.dart' as http;
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'Attachment_Provider.g.dart';
+
+@riverpod
+Future<List<Attachment>>  getAttachmentsByPosition(GetAttachmentsByPositionRef ref, String position){
+  return AttachmentService().getAttachmentsByPosition(position);
+}
+
+@riverpod
+Future<List<Attachment>>  getAllAttachments(GetAllAttachmentsRef ref, String position){
+  return AttachmentService().getAllAttachments();
+}
+
+@riverpod
+Future<Attachment>  getDefaultWeaponPartByPosition(GetDefaultWeaponPartByPositionRef ref, String weaponName, String position){
+  return AttachmentService().getDefaultWeaponPartByPosition(weaponName, position);
+}
+
+@riverpod
+Future<List<Attachment>> getDefaultWeaponParts(GetDefaultWeaponPartsRef ref, String weaponName){
+  return AttachmentService().getDefaultWeaponParts(weaponName);
+}
+
+class AttachmentService {
+  AttachmentService._internal();
+
+  static final AttachmentService _instance =
+      AttachmentService._internal(); // Singleton instance
+
+  factory AttachmentService() {
+    return _instance;
+  }
+
+  Future<List<Attachment>> getAllAttachments() async {
+
+    var response = await http.get(Uri.parse(constants.endpoint + constants.endpointGetAllAttachments));
+
+    if(response.statusCode == 200){
+      var json = await jsonDecode(response.body);
+      final ammo = json.map<Attachment>((e) {
+        return Attachment.fromJson(e);
+      }).toList();
+      return ammo;
+    }else{
+      return [];
+    }
+
+  }
+
+  Future<List<Attachment>> getAttachmentsByPosition(String position) async {
+
+    var response = await http.get(Uri.parse(constants.endpoint + constants.endpointGetAttachmentsByPosition));
+
+    if(response.statusCode == 200){
+      var json = await jsonDecode(response.body);
+      final attc = json.map<Attachment>((e) {
+        return Attachment.fromJson(e);
+      }).toList();
+      return attc;
+    }else{
+      return [];
+    }
+  }
+
+  Future<Attachment> getDefaultWeaponPartByPosition(String gunname, String position) async {
+    var response = await http.get(Uri.parse(
+        constants.endpointGetDefaultWeaponPartByPosition(gunname, position)));
+    if (response.statusCode == 200) {
+      var json = await jsonDecode(response.body);
+      final attc = Attachment.fromJson(json);
+      return attc;
+    } else {
+      throw ArgumentError(
+          "Unable to parse incoming data into an Attachment. Maybe no connection to caliber or corruption or invalid position for this gun.");
+    }
+  }
+
+  Future<List<Attachment>> getDefaultWeaponParts(String gunname) async{
+
+    var response = await http.get(Uri.parse(constants.endpoint + constants.endpointGetDefaultKitOfWeapon + gunname));
+
+    if(response.statusCode == 200){
+      var json = await jsonDecode(response.body);
+      final attc = json.map<Attachment>((e) {
+        return Attachment.fromJson(e);
+      }).toList();
+      return attc;
+    }else{
+      return [];
+    }
+
+  }
+}

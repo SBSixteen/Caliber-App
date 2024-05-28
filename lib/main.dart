@@ -40,7 +40,7 @@ class _MainAppState extends State<MainApp> {
       theme: ThemeData(
         brightness: constants.appBrightness,
       ),
-      home: constants.someUser == null ? SignInScreen() : WeaponShopScreen(),
+      home: WeaponShopScreen()//constants.someUser == null ? SignInScreen() : WeaponShopScreen(),
     );
   }
 }

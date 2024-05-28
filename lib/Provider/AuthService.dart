@@ -1,6 +1,4 @@
 // ignore_for_file: camel_case_types
-
-import 'package:calibre/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -24,7 +22,7 @@ class AuthService {
       final FirebaseAuth _auth = FirebaseAuth.instance;
       _auth.signInWithPopup(_googleAuthProvider);
     }catch (error){
-      print(error);
+
     }
   }
 }
