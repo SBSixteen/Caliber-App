@@ -29,6 +29,23 @@ Future<List<Attachment>> getDefaultWeaponParts(GetDefaultWeaponPartsRef ref, Str
   return AttachmentService().getDefaultWeaponParts(weaponName);
 }
 
+@riverpod
+Future<List<Attachment>> getDovetailAttachments(GetDovetailAttachmentsRef ref){
+  print("workin");
+  return AttachmentService().getMountableDovetailAttachments();
+}
+
+@riverpod
+Attachment setAttachment(Attachment attc){
+  return attc;
+}
+
+@riverpod
+Future<List<Attachment>> getMountableAttachments(GetMountableAttachmentsRef ref){
+  print("this work?");
+  return AttachmentService().getMountableAttachments();
+}
+
 class AttachmentService {
   AttachmentService._internal();
 
@@ -42,22 +59,56 @@ class AttachmentService {
   Future<List<Attachment>> getAllAttachments() async {
 
     var response = await http.get(Uri.parse(constants.endpoint + constants.endpointGetAllAttachments));
-
     if(response.statusCode == 200){
       var json = await jsonDecode(response.body);
-      final ammo = json.map<Attachment>((e) {
+      final attc = json.map<Attachment>((e) {
         return Attachment.fromJson(e);
       }).toList();
-      return ammo;
+      print(attc);
+      return attc;
     }else{
       return [];
     }
 
   }
 
+    Future<List<Attachment>> getMountableDovetailAttachments() async {
+
+    var response = await http.get(Uri.parse(constants.endpoint + constants.endpointGetDovetailAttachments));
+
+    print(response.statusCode);
+
+    if(response.statusCode == 200){
+      var json = await jsonDecode(response.body);
+      final attc = json.map<Attachment>((e) {
+        return Attachment.fromJson(e);
+      }).toList();
+      print(attc);
+      return attc;
+    }else{
+      return [];
+    }
+  }
+
+      Future<List<Attachment>> getMountableAttachments() async {
+
+    var response = await http.get(Uri.parse(constants.endpoint + constants.endpointGetMountableAttachments));
+
+    if(response.statusCode == 200){
+      var json = await jsonDecode(response.body);
+      final attc = json.map<Attachment>((e) {
+        return Attachment.fromJson(e);
+      }).toList();
+      return attc;
+    }else{
+      return [];
+    }
+  }
+
+
   Future<List<Attachment>> getAttachmentsByPosition(String position) async {
 
-    var response = await http.get(Uri.parse(constants.endpoint + constants.endpointGetAttachmentsByPosition));
+    var response = await http.get(Uri.parse(constants.endpoint + constants.endpointGetAttachmentsByPosition + position));
 
     if(response.statusCode == 200){
       var json = await jsonDecode(response.body);

@@ -1,5 +1,5 @@
-import 'package:calibre/Components/WeaponCards/DiscountedWeaponShopCard.dart';
-import 'package:calibre/Components/WeaponCards/WeaponShopCard.dart';
+import 'package:calibre/Components/Cards/WeaponCards/DiscountedWeaponShopCard.dart';
+import 'package:calibre/Components/Cards/WeaponCards/WeaponShopCard.dart';
 import 'package:calibre/Provider/Weapon_Provider.dart';
 import 'package:calibre/constants.dart';
 import 'package:flutter/material.dart';

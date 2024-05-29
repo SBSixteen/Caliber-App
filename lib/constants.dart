@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types
+// ignore_for_file: camel_case_types, non_constant_identifier_names
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -27,23 +27,29 @@ class constants {
       "api/Ammunition/GetAmmunitionImage?caliber=";
 
   //WeaponStructure
-      static String endpointGetWeaponStructure = 
+  static String endpointGetWeaponStructure =
       "api/WeaponStructure/GetWeaponStructureOf?weaponName=";
 
   //Attachments
   static String endpointGetAllAttachments = "api/Attachment/GetAllAttachments";
-  static String endpointGetAttachmentsByPosition = "api/Attachment/GetAttachmentByPosition?part=";
-  static String endpointGetDefaultKitOfWeapon = "api/Attachment/GetDefaultKitOfWeapon?gunname=";
+  static String endpointGetAttachmentsByPosition =
+      "api/Attachment/GetAttachmentByPosition?part=";
+  static String endpointGetDefaultKitOfWeapon =
+      "api/Attachment/GetDefaultKitOfWeapon?gunname=";
+  static String endpointGetDovetailAttachments =
+      "api/Attachment/GetDovetailMountableAttachment";
+  static String endpointGetMountableAttachments =
+      "api/Attachment/GetMountableAttachment";
 
-  static String endpointGetDefaultWeaponPartByPosition(String gunname, String position){
-
+  static String endpointGetDefaultWeaponPartByPosition(
+      String gunname, String position) {
     gunname = gunname.replaceAll(" ", "%20");
     position = position.replaceAll(" ", "%20");
 
     return "${endpoint}api/Attachment/GetDefaultWeaponPartByPosition?gunname=$gunname&position=$position";
   }
 
-  static String endpointGetAttachmentPicture(String name, String position){
+  static String endpointGetAttachmentPicture(String name, String position) {
     name = name.replaceAll(" ", "%20");
     position = position.replaceAll(" ", "%20");
 
@@ -116,16 +122,24 @@ class constants {
   static TextStyle subheadings = const TextStyle(
       fontFamily: "Inter", fontSize: 18.0, color: Colors.orange);
 
+  static TextStyle blacksubheadings = const TextStyle(
+      fontFamily: "Inter SemiBold", fontSize: 18.0, color: Colors.black);
+
+  static TextStyle attachmentTilePrice = const TextStyle(
+      fontFamily: "Inter SemiBold",
+      fontSize: 18.0,
+      color: Color.fromARGB(255, 2, 107, 0));
+
   static TextStyle subtlebadnews = const TextStyle(
       fontFamily: "Inter Bold",
       fontSize: 18.0,
       color: Color.fromARGB(255, 128, 128, 128));
 
-  static TextStyle ammunitionVariant = const TextStyle(
-      color: Colors.white, fontFamily: "Inter", fontSize: 12.0);
+  static TextStyle ammunitionVariant =
+      const TextStyle(color: Colors.white, fontFamily: "Inter", fontSize: 12.0);
 
   //Colors
-  static Color cardBackground = Colors.white; 
+  static Color cardBackground = Colors.white;
   static Color cardSurfaceTint = Colors.transparent;
 
   //Theme
@@ -136,46 +150,53 @@ class constants {
 
   //Widgets
   static Widget bigLoader = const Center(
-          child: SizedBox(
-            height: 250,
-            width: 250,
-            child: CircularProgressIndicator(
-              color: Colors.red,
-            ),
-          ),
-        );
-    
-    static Widget defaultError = Center(
-          child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-              child: Text(
-                "Trouble connecting to Caliber Servers",
-                style: subtlebadnews,
-              )),
-        );
+    child: SizedBox(
+      height: 250,
+      width: 250,
+      child: CircularProgressIndicator(
+        color: Colors.red,
+      ),
+    ),
+  );
 
-    static Widget widgetNoAttachmentsFound = Center(
-          child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-              child: Text(
-                "No Attachments Found",
-                style: subtlebadnews,
-              )),
-        );
+  static Widget smolLoader = const Center(
+    child: SizedBox(
+      height: 125,
+      width: 125,
+      child: CircularProgressIndicator(
+        color: Colors.red,
+      ),
+    ),
+  );
 
-    //Image Network Height Geometry
-    static Map<String, double> weaponInquiryCardAttachment = 
-    {
-      "Magazine" : 0.20,
-      "Dust Cover" : 0.7,
-      "Muzzle" : 0.4,
-      "Handguard" : 0.4,
-      "Platform" : 0.80,
-      "Rear Sight" : 0.4,
-      "Grip" : 0.4,
-      "Stock" : 0.6,
-    };
+  static Widget defaultError = Center(
+    child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+        child: Text(
+          "Trouble connecting to Caliber Servers",
+          style: subtlebadnews,
+        )),
+  );
 
+  static Widget widgetNoAttachmentsFound = Center(
+    child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+        child: Text(
+          "No Attachments Found",
+          style: subtlebadnews,
+        )),
+  );
+
+  //Image Network Height Geometry
+  static Map<String, double> weaponInquiryCardAttachment = {
+    "Magazine": 0.20,
+    "Dust Cover": 0.7,
+    "Muzzle": 0.4,
+    "Handguard": 0.4,
+    "Platform": 0.80,
+    "Rear Sight": 0.4,
+    "Grip": 0.3,
+    "Stock": 0.6,
+    "Optic" : 0.4
+  };
 }

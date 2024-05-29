@@ -579,5 +579,42 @@ class _GetDefaultWeaponPartsProviderElement
   @override
   String get weaponName => (origin as GetDefaultWeaponPartsProvider).weaponName;
 }
+
+String _$getDovetailAttachmentsHash() =>
+    r'bf4a65a28d281c38e5cc89bbc42a850ffed0fe70';
+
+/// See also [getDovetailAttachments].
+@ProviderFor(getDovetailAttachments)
+final getDovetailAttachmentsProvider =
+    AutoDisposeFutureProvider<List<Attachment>>.internal(
+  getDovetailAttachments,
+  name: r'getDovetailAttachmentsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getDovetailAttachmentsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GetDovetailAttachmentsRef
+    = AutoDisposeFutureProviderRef<List<Attachment>>;
+String _$getMountableAttachmentsHash() =>
+    r'8c472591c94a057af4ff0ec57caecb5d544ab73d';
+
+/// See also [getMountableAttachments].
+@ProviderFor(getMountableAttachments)
+final getMountableAttachmentsProvider =
+    AutoDisposeFutureProvider<List<Attachment>>.internal(
+  getMountableAttachments,
+  name: r'getMountableAttachmentsProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getMountableAttachmentsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GetMountableAttachmentsRef
+    = AutoDisposeFutureProviderRef<List<Attachment>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

@@ -165,7 +165,7 @@ class _GetWeaponAttachmentPositionsProviderElement
 }
 
 String _$getDefaultWeaponStructureOfHash() =>
-    r'9c5a09dd1129f9b8ee05d6813c65f168db97f128';
+    r'5caad3e7bb048ba47fbfb3d3572b0a52526874c1';
 
 /// See also [getDefaultWeaponStructureOf].
 @ProviderFor(getDefaultWeaponStructureOf)

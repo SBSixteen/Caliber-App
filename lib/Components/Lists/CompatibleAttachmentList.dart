@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, must_be_immutable
 
+import 'package:calibre/Components/Cards/AttachmentCards/WeaponInquiryAttachmentCard.dart';
 import 'package:calibre/Provider/WeaponStructure_Provider.dart';
 import 'package:calibre/constants.dart';
 import 'package:flutter/material.dart';
@@ -10,82 +11,52 @@ class CompatibleAttachmentList extends ConsumerWidget {
 
   CompatibleAttachmentList({super.key, required this.weaponName});
 
-  
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final weaponStructure =
+        ref.watch(getDefaultWeaponStructureOfProvider(weaponName));
 
-    final weaponStructure = ref.watch(getDefaultWeaponStructureOfProvider(weaponName));
-
-
-    return weaponStructure.when(data: (wepStruct) {
-      final positions = ref.watch(getWeaponAttachmentPositionsProvider(weaponName));
-      print(wepStruct.manifest);
-    return positions.when(data: (data) {
-      if(data.isEmpty){
-        return const Center();
-      }else{
-        return ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                surfaceTintColor: Colors.transparent,
-                color: Colors.white,
-                elevation: 24.0,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        data[index],
-                        style: constants.headings,
-                      ),
-                      wepStruct.manifest.containsKey(data[index]) ? Row(
-                        children: [
-                          const Spacer(),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width*constants.weaponInquiryCardAttachment[data[index]]!,
-                              child: Image.network(
-                                fit: BoxFit.contain,
-                                constants.endpointGetAttachmentPicture(wepStruct.manifest[data[index]]!.AttachmentName, data[index]),
-                            ),
-                          )),
-                          const Spacer()
-                        ],
-                      ): const Center(),
-                      wepStruct.manifest.containsKey(data[index]) ? Text(
-                        wepStruct.manifest[data[index]]!.AttachmentName,
-                        style: constants.attachmentHeading,
-                      ) : const Center(),
-                      wepStruct.manifest.containsKey(data[index]) ? Text(
-                        wepStruct.manifest[data[index]]!.AttachmentDescription,
-                        style: constants.soft,
-                      ) : const Center(),
-                    ],
-                  ),
-                ),
-              ),
-            );
+    return weaponStructure.when(
+      data: (wepStruct) {
+        final positions =
+            ref.watch(getWeaponAttachmentPositionsProvider(weaponName));
+        return positions.when(
+          data: (data) {
+            print(data);
+            if (data.isEmpty) {
+              return const Center();
+            } else {
+              return ListView.builder(
+                  padding: const EdgeInsets.all(8.0),
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    if (wepStruct.manifest.containsKey(data[index])) {
+                      return WeaponInquiryAttachmentCard(
+                          data[index], wepStruct.manifest[data[index]]!);
+                    }else{
+                      print("${data[index]} not found!!");
+                      return const SizedBox.shrink();
+                    }
+                  },
+                  itemCount: data.length);
+            }
           },
-          itemCount: data.length
+          error: (error, stackTrace) {
+            return constants.defaultError;
+          },
+          loading: () {
+            return constants.bigLoader;
+          },
         );
-      }
-    }, error: (error, stackTrace) { 
-      return constants.defaultError;
-    }, loading: () {
-      return constants.bigLoader;
-    },);
-    }, error: (error, stacktrace){
-      return constants.defaultError;
-    }, loading: () {
-      return constants.bigLoader;
-    },);
+      },
+      error: (error, stacktrace) {
+        return constants.defaultError;
+      },
+      loading: () {
+        return constants.bigLoader;
+      },
+    );
   }
 }
 

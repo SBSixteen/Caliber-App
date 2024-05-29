@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, non_constant_identifier_names
+
 class Attachment{
 
     String AttachmentName;
@@ -11,6 +13,8 @@ class Attachment{
     int AttachmentPiccatiny_Right;
     int Attachment_AttachesToRail;
     int Attachment_AttachesToDovetail;
+    int Attachment_DovetailMount;
+
 
     Attachment(
       this.AttachmentName,
@@ -23,7 +27,8 @@ class Attachment{
       this.AttachmentPiccatiny_Left,
       this.AttachmentPiccatiny_Right,
       this.Attachment_AttachesToRail,
-      this.Attachment_AttachesToDovetail
+      this.Attachment_AttachesToDovetail,
+      this.Attachment_DovetailMount
     );
 
     factory Attachment.fromJson(Map<dynamic, dynamic> json){
@@ -40,8 +45,10 @@ class Attachment{
         json["attachmentPiccatiny_Right"],
         json["attachment_AttachesToRail"],
         json["attachment_AttachesToDovetail"],
-        
+        json["attachment_DovetailMount"],
       );
     }
+
+  set state(Attachment state) {}
 
 }
