@@ -49,6 +49,9 @@ class Attachment{
       );
     }
 
-  set state(Attachment state) {}
+  @override
+  String toString(){
+    return AttachmentName;
+  }
 
 }

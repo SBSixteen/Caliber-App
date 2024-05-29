@@ -4,20 +4,16 @@ import 'package:calibre/Model/Weapon.dart';
 import 'package:flutter/material.dart';
 import 'package:calibre/constants.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WeaponShopCard extends StatefulWidget {
+class WeaponShopCard extends ConsumerWidget {
   final Weapon weapon;
   const WeaponShopCard({super.key, required this.weapon});
 
   @override
-  State<StatefulWidget> createState() => _WeaponShopCardState();
-}
-
-class _WeaponShopCardState extends State<WeaponShopCard> {
-  @override
-  Widget build(BuildContext context) {
-    String makeURL = widget.weapon.WeaponMake.replaceAll(" ", "%20");
-    String weaponURL = widget.weapon.WeaponName.replaceAll(" ", "%20");
+  Widget build(BuildContext context, WidgetRef ref) {
+    String makeURL = weapon.WeaponMake.replaceAll(" ", "%20");
+    String weaponURL = weapon.WeaponName.replaceAll(" ", "%20");
 
     return Animate(
       effects: [
@@ -35,7 +31,7 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => WeaponInquiry(weapon: widget.weapon)));
+                  builder: (context) => WeaponInquiry(weapon: weapon)));
         },
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.25,
@@ -54,7 +50,7 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
                             constants.endpointGetWeaponPicture +
                             weaponURL,
                         fit: BoxFit.fitWidth,
-                        width: widget.weapon.WeaponTypeShort == "PST"
+                        width: weapon.WeaponTypeShort == "PST"
                             ? MediaQuery.of(context).size.width * 0.65
                             : null,
                       ),
@@ -66,7 +62,7 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.weapon.WeaponTypeShort,
+                              weapon.WeaponTypeShort,
                               style: const TextStyle(
                                   fontFamily: "Inter",
                                   fontWeight: FontWeight.w900,
@@ -89,15 +85,14 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
                                   offset: const Offset(0, -3),
                                   child: Text(
                                     constants.formatter.format(
-                                        widget.weapon.WeaponPrice *
-                                            widget.weapon.WeaponDiscount),
+                                        weapon.WeaponPrice *
+                                            weapon.WeaponDiscount),
                                     style: TextStyle(
                                         fontFamily: "Inter Bold",
                                         fontSize: 24,
-                                        color: (widget.weapon.WeaponPrice *
-                                                    widget
-                                                        .weapon.WeaponDiscount <
-                                                widget.weapon.WeaponPrice)
+                                        color: (weapon.WeaponPrice *
+                                                    weapon.WeaponDiscount <
+                                                weapon.WeaponPrice)
                                             ? const Color.fromARGB(
                                                 255, 2, 107, 0)
                                             : Colors.red),
@@ -107,7 +102,7 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
                                   offset: const Offset(0, -6),
                                   child: Text(
                                     constants.formatter
-                                        .format(widget.weapon.WeaponPrice),
+                                        .format(weapon.WeaponPrice),
                                     style: const TextStyle(
                                         fontFamily: "Inter",
                                         fontSize: 12,
@@ -144,7 +139,7 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
                                                 .endpointGetWeaponMakePicture +
                                             makeURL)),
                                     Text(
-                                      widget.weapon.WeaponName,
+                                      weapon.WeaponName,
                                       style: const TextStyle(
                                           fontFamily: "Inter Bold",
                                           fontSize: 18,
@@ -152,7 +147,7 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
                                               Color.fromARGB(255, 24, 24, 24)),
                                     ),
                                     Text(
-                                      widget.weapon.WeaponOrigin,
+                                      weapon.WeaponOrigin,
                                       style: const TextStyle(
                                           fontFamily: "Inter",
                                           fontSize: 12,
@@ -175,7 +170,7 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
                                             Color.fromARGB(255, 153, 153, 153)),
                                   ),
                                   Text(
-                                    widget.weapon.WeaponCaliber,
+                                    weapon.WeaponCaliber,
                                     style: const TextStyle(
                                         fontFamily: "Inter Bold",
                                         fontSize: 14,
@@ -198,7 +193,7 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
                                                       255, 153, 153, 153)),
                                             ),
                                             Text(
-                                              "${widget.weapon.rof} R/M",
+                                              "${weapon.rof} R/M",
                                               style: const TextStyle(
                                                   fontFamily: "Inter Bold",
                                                   fontSize: 14,
@@ -223,7 +218,7 @@ class _WeaponShopCardState extends State<WeaponShopCard> {
                                                       255, 153, 153, 153)),
                                             ),
                                             Text(
-                                              "${widget.weapon.WeaponWeight} KG",
+                                              "${weapon.WeaponWeight} KG",
                                               style: const TextStyle(
                                                   fontFamily: "Inter Bold",
                                                   fontSize: 14,

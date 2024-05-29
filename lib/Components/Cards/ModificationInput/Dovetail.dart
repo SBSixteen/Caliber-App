@@ -4,7 +4,6 @@ import 'package:calibre/Model/Attachment.dart';
 import 'package:calibre/Provider/Attachment_Provider.dart';
 import 'package:flutter/material.dart';
 import 'package:calibre/constants.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 StateProvider<Attachment?> dovetailAttachmentProvider = StateProvider<Attachment?>((ref) => null);
@@ -33,9 +32,19 @@ class Dovetail extends ConsumerWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 6.0),
-                child: Text(
-                  "Dovetail Mount",
-                  style: constants.attachmentHeading,
+                child: Row(
+                  children: [
+                    Text(
+                      "Dovetail Mount",
+                      style: constants.attachmentHeading,
+                    ) ,
+                    selection != null ? const Spacer(): const SizedBox.shrink(),
+                    selection != null ? IconButton(onPressed: () {
+                      ref.read(constants.weaponPreset.notifier).state.manifest.remove("Dovetail Mount");
+                      ref.read(constants.weaponPreset.notifier).state.manifest.remove("Mount of Dovetail Mount");
+                      ref.read(dovetailAttachmentProvider.notifier).state = null;
+                    }, icon: const Icon(Icons.remove_circle, color: Colors.red,)) : const SizedBox.shrink()
+                  ],
                 ),
               ),
               selection == null ? Row(
@@ -55,6 +64,9 @@ class Dovetail extends ConsumerWidget {
                         InkWell(
                             onTap: () {
                               showModalBottomSheet(
+                                enableDrag: true,
+                                showDragHandle: true,
+                                isScrollControlled: true,
                                 context: context,
                                 builder: (context) {
                                   return Consumer(
@@ -67,7 +79,16 @@ class Dovetail extends ConsumerWidget {
                                             children: [
                                               ListView.separated(
                                                 separatorBuilder: (context, index) {
-                                                  return Text("--------------------", style: constants.subtlebadnews,);
+                                                  return Padding(
+                                                    padding: const EdgeInsets.all(8.0),
+                                                    child: Center(
+                                                      child: Container(
+                                                        width: MediaQuery.of(context).size.width*0.8,
+                                                        height: 1,
+                                                        color:  Colors.grey,
+                                                      ),
+                                                    ),
+                                                  );
                                                 },
                                                 itemCount: data.length,
                                                 padding: const EdgeInsets.all(10.0),
@@ -76,12 +97,13 @@ class Dovetail extends ConsumerWidget {
                                                   return InkWell(
                                                     onTap: () {
                                                       ref.read(dovetailAttachmentProvider.notifier).state = data[index];
+                                                      ref.read(constants.weaponPreset.notifier).state.manifest.putIfAbsent("Dovetail Mount", () => ref.read(dovetailAttachmentProvider.notifier).state!);
                                                       Navigator.pop(context);
                                                     },
                                                     child: ListTile(
                                                       leading: SizedBox(
-                                                        width: 128,
-                                                        height: 128,
+                                                        width: 64,
+                                                        height: 64,
                                                         child: Image.network(
                                                           constants.endpointGetAttachmentPicture(
                                                               data[index]
@@ -142,13 +164,19 @@ class Dovetail extends ConsumerWidget {
                   ),
                   const Spacer()
                 ],
-              ) : SizedBox(
-                            width: MediaQuery.of(context).size.width*constants.weaponInquiryCardAttachment[selection.AttachmentPart]!,
-                            child: Image.network(
-                              fit: BoxFit.contain,
-                              constants.endpointGetAttachmentPicture(selection.AttachmentName, selection.AttachmentPart),
-                          )
-                ),
+              ) : 
+              Row(
+                children: [
+                  SizedBox(
+                                width: MediaQuery.of(context).size.width*constants.weaponInquiryCardAttachment[selection.AttachmentPart]!,
+                                child: Image.network(
+                                  fit: BoxFit.contain,
+                                  constants.endpointGetAttachmentPicture(selection.AttachmentName, selection.AttachmentPart),
+                              ),
+                    ),
+
+                ],
+              ),
                 
             ],
           ),

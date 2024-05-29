@@ -1,10 +1,19 @@
 // ignore_for_file: camel_case_types, non_constant_identifier_names
+import 'package:calibre/Model/Attachment.dart';
+import 'package:calibre/Model/WeaponStructure.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'Components/BottomNavBar/SingleElement.dart';
 
 class constants {
+
+  //Provider
+  static StateProvider<WeaponStructure> weaponPreset = StateProvider<WeaponStructure>((ref) => WeaponStructure());
+  static StateProvider<Attachment?> inFocusAttachment = StateProvider<Attachment?>((ref) => null);
+  static StateProvider<List<Object>> cart = StateProvider<List<Object>>((ref) => List.empty());
+
   static var formatter = NumberFormat('###,000');
 
   static int currentweaponsindex = 0;
@@ -49,6 +58,24 @@ class constants {
     return "${endpoint}api/Attachment/GetDefaultWeaponPartByPosition?gunname=$gunname&position=$position";
   }
 
+  static String endpointGetCountCompatibleWeaponPositionAttachments(String gunname, String position){
+
+    gunname = gunname.replaceAll(" ", "%20");
+    position = position.replaceAll(" ", "%20");
+
+    return "${endpoint}api/Attachment/GetCountCompatibleWeaponPositionAttachments?weaponName=$gunname&position=$position";
+
+  }
+
+    static String endpointGetCompatibleWeaponPositionAttachments(String weaponName, String position){
+
+    weaponName = weaponName.replaceAll(" ", "%20");
+    position = position.replaceAll(" ", "%20");
+
+    return "${endpoint}api/Attachment/GetCompatibleWeaponPositionAttachments?weaponName=$weaponName&position=$position";
+
+  }
+
   static String endpointGetAttachmentPicture(String name, String position) {
     name = name.replaceAll(" ", "%20");
     position = position.replaceAll(" ", "%20");
@@ -57,7 +84,6 @@ class constants {
   }
 
   // Bottom Nav Bar Elements
-  // ignore: non_constant_identifier_names
   static List<SingleElement> NavBarElements = [
     SingleElement(
         onPress: () {},
@@ -115,6 +141,9 @@ class constants {
 
   static TextStyle headings = const TextStyle(
       fontFamily: "Inter SemiBold", fontSize: 24.0, color: Colors.red);
+
+  static TextStyle textButton = const TextStyle(
+      fontFamily: "Inter SemiBold", fontSize: 16.0, color: Colors.red);
 
   static TextStyle attachmentHeading = const TextStyle(
       fontFamily: "Inter SemiBold", fontSize: 18.0, color: Colors.red);
@@ -197,6 +226,11 @@ class constants {
     "Rear Sight": 0.4,
     "Grip": 0.3,
     "Stock": 0.6,
-    "Optic" : 0.4
+    "Optic" : 0.4,
+    "Charging Handle" : 0.4,
+    "Front Sight" : 0.4,
+    "Buffer Tube" : 0.4,
+    "Upper Receiver" : 0.6,
+    "Barrel" : 0.8,
   };
 }

@@ -4,29 +4,31 @@ import 'package:calibre/Model/Weapon.dart';
 import 'package:calibre/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WeaponInquiry extends StatefulWidget {
+class WeaponInquiry extends ConsumerWidget {
   final Weapon weapon;
   const WeaponInquiry({super.key, required this.weapon});
 
-  @override
-  State<StatefulWidget> createState() => _WeaponInquiryState();
-}
-
-class _WeaponInquiryState extends State<WeaponInquiry> {
-  @override
-  Widget build(BuildContext context) {
-    //String makeURL = widget.weapon.WeaponMake.replaceAll(" ", "%20");
-    String weaponURL = widget.weapon.WeaponName.replaceAll(" ", "%20");
-
+    @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    //String makeURL = weapon.WeaponMake.replaceAll(" ", "%20");
+    String weaponURL = weapon.WeaponName.replaceAll(" ", "%20");
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: Text(
-          widget.weapon.WeaponName,
+          weapon.WeaponName,
           style: const TextStyle(fontFamily: "Inter Bold", color: Colors.black),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {
+                  print(ref.watch(constants.weaponPreset.notifier).state.manifest);
+              },
+              icon: const Icon(Icons.chevron_left)),
+        ],
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
@@ -57,9 +59,11 @@ class _WeaponInquiryState extends State<WeaponInquiry> {
                       height: 04,
                     ),
                     Animate(
-                      effects: [FadeEffect(begin: 0.0, end: 1.0, duration: 600.ms )],
+                      effects: [
+                        FadeEffect(begin: 0.0, end: 1.0, duration: 600.ms)
+                      ],
                       child: Text(
-                        widget.weapon.WeaponDescription,
+                        weapon.WeaponDescription,
                         style: constants.soft,
                       ),
                     ),
@@ -85,16 +89,19 @@ class _WeaponInquiryState extends State<WeaponInquiry> {
                       const SizedBox(
                         height: 04,
                       ),
-                      CompatibleAmmoList(caliber: widget.weapon.WeaponCaliber),
+                      CompatibleAmmoList(caliber: weapon.WeaponCaliber),
                     ],
                   ),
                 ),
               ),
             ),
-            CompatibleAttachmentList(weaponName: widget.weapon.WeaponName),
+            CompatibleAttachmentList(weaponName: weapon.WeaponName),
           ],
         ),
       ),
     );
   }
+
 }
+
+

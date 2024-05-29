@@ -4,20 +4,16 @@ import 'package:calibre/Model/Weapon.dart';
 import 'package:flutter/material.dart';
 import 'package:calibre/constants.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DiscountedWeaponShopCard extends StatefulWidget {
+class DiscountedWeaponShopCard extends ConsumerWidget {
   final Weapon weapon;
   const DiscountedWeaponShopCard({super.key, required this.weapon});
 
   @override
-  State<StatefulWidget> createState() => _DiscountedWeaponShopCardState();
-}
-
-class _DiscountedWeaponShopCardState extends State<DiscountedWeaponShopCard> {
-  @override
-  Widget build(BuildContext context) {
-    String makeURL = widget.weapon.WeaponMake.replaceAll(" ", "%20");
-    String weaponURL = widget.weapon.WeaponName.replaceAll(" ", "%20");
+    Widget build(BuildContext context, WidgetRef ref) {
+    String makeURL = weapon.WeaponMake.replaceAll(" ", "%20");
+    String weaponURL = weapon.WeaponName.replaceAll(" ", "%20");
 
     return Animate(
       effects: [
@@ -35,7 +31,10 @@ class _DiscountedWeaponShopCardState extends State<DiscountedWeaponShopCard> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => WeaponInquiry(weapon: widget.weapon)));
+                  builder: (context) {
+                    
+                    return WeaponInquiry(weapon: weapon);
+                  },));
         },
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.25,
@@ -54,7 +53,7 @@ class _DiscountedWeaponShopCardState extends State<DiscountedWeaponShopCard> {
                             constants.endpointGetWeaponPicture +
                             weaponURL,
                         fit: BoxFit.fitWidth,
-                        width: widget.weapon.WeaponTypeShort == "PST"
+                        width: weapon.WeaponTypeShort == "PST"
                             ? MediaQuery.of(context).size.width * 0.65
                             : null,
                       ),
@@ -66,7 +65,7 @@ class _DiscountedWeaponShopCardState extends State<DiscountedWeaponShopCard> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.weapon.WeaponTypeShort,
+                              weapon.WeaponTypeShort,
                               style: const TextStyle(
                                   fontFamily: "Inter",
                                   fontWeight: FontWeight.w900,
@@ -85,7 +84,7 @@ class _DiscountedWeaponShopCardState extends State<DiscountedWeaponShopCard> {
                               offset: const Offset(0, -3),
                               child: Text(
                                   constants.formatter
-                                      .format(widget.weapon.WeaponPrice),
+                                      .format(weapon.WeaponPrice),
                                   style: const TextStyle(
                                       fontFamily: "Inter Bold",
                                       fontSize: 24,
@@ -116,7 +115,7 @@ class _DiscountedWeaponShopCardState extends State<DiscountedWeaponShopCard> {
                                                 .endpointGetWeaponMakePicture +
                                             makeURL)),
                                     Text(
-                                      widget.weapon.WeaponName,
+                                      weapon.WeaponName,
                                       style: const TextStyle(
                                           fontFamily: "Inter Bold",
                                           fontSize: 18,
@@ -124,7 +123,7 @@ class _DiscountedWeaponShopCardState extends State<DiscountedWeaponShopCard> {
                                               Color.fromARGB(255, 24, 24, 24)),
                                     ),
                                     Text(
-                                      widget.weapon.WeaponOrigin,
+                                      weapon.WeaponOrigin,
                                       style: const TextStyle(
                                           fontFamily: "Inter",
                                           fontSize: 12,
@@ -147,7 +146,7 @@ class _DiscountedWeaponShopCardState extends State<DiscountedWeaponShopCard> {
                                             Color.fromARGB(255, 153, 153, 153)),
                                   ),
                                   Text(
-                                    widget.weapon.WeaponCaliber,
+                                    weapon.WeaponCaliber,
                                     style: const TextStyle(
                                         fontFamily: "Inter Bold",
                                         fontSize: 14,
@@ -170,7 +169,7 @@ class _DiscountedWeaponShopCardState extends State<DiscountedWeaponShopCard> {
                                                       255, 153, 153, 153)),
                                             ),
                                             Text(
-                                              "${widget.weapon.rof} R/M",
+                                              "${weapon.rof} R/M",
                                               style: const TextStyle(
                                                   fontFamily: "Inter Bold",
                                                   fontSize: 14,
@@ -195,7 +194,7 @@ class _DiscountedWeaponShopCardState extends State<DiscountedWeaponShopCard> {
                                                       255, 153, 153, 153)),
                                             ),
                                             Text(
-                                              "${widget.weapon.WeaponWeight} KG",
+                                              "${weapon.WeaponWeight} KG",
                                               style: const TextStyle(
                                                   fontFamily: "Inter Bold",
                                                   fontSize: 14,

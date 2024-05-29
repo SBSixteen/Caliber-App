@@ -1,6 +1,7 @@
 // ignore_for_file: file_names, must_be_immutable
 
 import 'package:calibre/Components/Cards/AttachmentCards/WeaponInquiryAttachmentCard.dart';
+import 'package:calibre/Provider/Attachment_Provider.dart';
 import 'package:calibre/Provider/WeaponStructure_Provider.dart';
 import 'package:calibre/constants.dart';
 import 'package:flutter/material.dart';
@@ -13,16 +14,19 @@ class CompatibleAttachmentList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     final weaponStructure =
         ref.watch(getDefaultWeaponStructureOfProvider(weaponName));
-
     return weaponStructure.when(
       data: (wepStruct) {
+        print(wepStruct.manifest.length);
+        Future(() => ref.read(constants.weaponPreset.notifier).state = wepStruct);
         final positions =
             ref.watch(getWeaponAttachmentPositionsProvider(weaponName));
+            ref.watch(constants.inFocusAttachment);
         return positions.when(
           data: (data) {
-            print(data);
+            print(data.length);
             if (data.isEmpty) {
               return const Center();
             } else {
@@ -31,13 +35,20 @@ class CompatibleAttachmentList extends ConsumerWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    if (wepStruct.manifest.containsKey(data[index])) {
+                    final compatibleCount = ref.watch(getCountCompatibleWeaponPositionAttachmentsProvider(weaponName, data[index]));
+                    return compatibleCount.when(data: (count) {
+                      if (wepStruct.manifest.containsKey(data[index])) {
                       return WeaponInquiryAttachmentCard(
-                          data[index], wepStruct.manifest[data[index]]!);
+                          data[index], weaponName, wepStruct.manifest[data[index]]!, count);
                     }else{
-                      print("${data[index]} not found!!");
                       return const SizedBox.shrink();
                     }
+                    }, error: (error, stackTrace) {
+                      return WeaponInquiryAttachmentCard(
+                          data[index], weaponName,wepStruct.manifest[data[index]]!, 0);
+                    }, loading: () {
+                      return const Padding(padding: EdgeInsets.all(8.0), child: CircularProgressIndicator(color: Colors.red,),);
+                    },);
                   },
                   itemCount: data.length);
             }
