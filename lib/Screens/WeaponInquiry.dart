@@ -10,7 +10,7 @@ class WeaponInquiry extends ConsumerWidget {
   final Weapon weapon;
   const WeaponInquiry({super.key, required this.weapon});
 
-    @override
+  @override
   Widget build(BuildContext context, WidgetRef ref) {
     //String makeURL = weapon.WeaponMake.replaceAll(" ", "%20");
     String weaponURL = weapon.WeaponName.replaceAll(" ", "%20");
@@ -25,7 +25,8 @@ class WeaponInquiry extends ConsumerWidget {
         actions: [
           IconButton(
               onPressed: () {
-                  print(ref.watch(constants.weaponPreset.notifier).state.manifest);
+                print(
+                    ref.watch(constants.weaponPreset.notifier).state.manifest);
               },
               icon: const Icon(Icons.chevron_left)),
         ],
@@ -96,12 +97,54 @@ class WeaponInquiry extends ConsumerWidget {
               ),
             ),
             CompatibleAttachmentList(weaponName: weapon.WeaponName),
+            InkWell(
+              onTap: (){
+                ref.read(constants.cart.notifier).state.add(ref.read(constants.weaponPreset));
+                print(  ref.read(constants.cart.notifier).state);
+              },
+              child :Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height*0.05,
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black,
+                            offset: Offset(0, 10),
+                            blurRadius: 30,
+                            spreadRadius: -5,
+                          ),
+                        ],
+                        gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Color.fromARGB(255, 116, 58, 58),
+                              Color.fromARGB(255, 179, 65, 65),
+                              Color.fromARGB(255, 184, 16, 16),
+                              Colors.red,
+                            ],
+                            stops: [
+                              0.1,
+                              0.3,
+                              0.9,
+                              1.0
+                            ])),
+                  child: const Padding(padding: EdgeInsets.all(10.0),
+                  child: Row(
+                    children: [
+                      Spacer(),
+                      Text("Add to Cart",style: TextStyle(fontFamily: "Inter SemiBold", fontSize: 20.0, color: Colors.white),),
+                      Spacer()
+                    ],
+                  ),)),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
-
 }
-
-

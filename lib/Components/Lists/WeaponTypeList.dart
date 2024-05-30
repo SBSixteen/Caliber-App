@@ -26,9 +26,10 @@ class WeaponTypeList extends ConsumerWidget{
               return const SizedBox(height: 18.0,);
             },
               itemBuilder: (context, index) {
-                return data[index].WeaponDiscount != 1.0
-                    ? WeaponShopCard(weapon: data[index])
-                    : DiscountedWeaponShopCard(weapon: data[index]);
+                // return data[index].WeaponDiscount != 1.0
+                //     ? WeaponShopCard(weapon: data[index])
+                //     : DiscountedWeaponShopCard(weapon: data[index]);
+                return WeaponShopCard(weapon: data[index]);
               },
               itemCount: data.length);
         }

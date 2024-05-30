@@ -60,4 +60,9 @@ class Weapon {
       throw Exception("Did not get a valid Weapon object!");
     }
   }
+
+  @override
+  String toString(){
+    return "$WeaponName | $WeaponMake";
+  }
 }

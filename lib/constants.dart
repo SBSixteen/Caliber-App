@@ -8,15 +8,19 @@ import 'package:intl/intl.dart';
 import 'Components/BottomNavBar/SingleElement.dart';
 
 class constants {
-
   //Provider
-  static StateProvider<WeaponStructure> weaponPreset = StateProvider<WeaponStructure>((ref) => WeaponStructure());
-  static StateProvider<Attachment?> inFocusAttachment = StateProvider<Attachment?>((ref) => null);
-  static StateProvider<List<Object>> cart = StateProvider<List<Object>>((ref) => List.empty());
+  static StateProvider<WeaponStructure> weaponPreset =
+      StateProvider<WeaponStructure>((ref) => WeaponStructure());
+  static StateProvider<Attachment?> inFocusAttachment =
+      StateProvider<Attachment?>((ref) => null);
+  static StateProvider<List<WeaponStructure>> cart =
+      StateProvider<List<WeaponStructure>>((ref) => []);
 
   static var formatter = NumberFormat('###,000');
 
   static int currentweaponsindex = 0;
+  static int currentammoindex = 0;
+  static String currentnavpage = "Weapons";
 
   static String endpoint = "https://localhost:7069/";
 
@@ -30,6 +34,7 @@ class constants {
       "api/Weapon/GetAllWeaponsByType?type=";
 
   //Ammuntion
+  static String endpointGetCalibers = "api/Ammunition/GetAllCalibers";
   static String endpointGetAmmunitionByCaliber =
       "api/Ammunition/GetAmmunitionByCaliber?caliber=";
   static String endpointGetAmmunitionPicture =
@@ -58,22 +63,20 @@ class constants {
     return "${endpoint}api/Attachment/GetDefaultWeaponPartByPosition?gunname=$gunname&position=$position";
   }
 
-  static String endpointGetCountCompatibleWeaponPositionAttachments(String gunname, String position){
-
+  static String endpointGetCountCompatibleWeaponPositionAttachments(
+      String gunname, String position) {
     gunname = gunname.replaceAll(" ", "%20");
     position = position.replaceAll(" ", "%20");
 
     return "${endpoint}api/Attachment/GetCountCompatibleWeaponPositionAttachments?weaponName=$gunname&position=$position";
-
   }
 
-    static String endpointGetCompatibleWeaponPositionAttachments(String weaponName, String position){
-
+  static String endpointGetCompatibleWeaponPositionAttachments(
+      String weaponName, String position) {
     weaponName = weaponName.replaceAll(" ", "%20");
     position = position.replaceAll(" ", "%20");
 
     return "${endpoint}api/Attachment/GetCompatibleWeaponPositionAttachments?weaponName=$weaponName&position=$position";
-
   }
 
   static String endpointGetAttachmentPicture(String name, String position) {
@@ -87,63 +90,36 @@ class constants {
   static List<SingleElement> NavBarElements = [
     SingleElement(
         onPress: () {},
-        icon: const Icon(Icons.storage_sharp),
+        icon: const Icon(Icons.webhook_sharp),
         label: "Weapons"),
     SingleElement(
-        onPress: () {},
-        icon: const Icon(Icons.electrical_services_sharp),
-        label: "Accessories"),
+        onPress: () {}, icon: const Icon(Icons.workspaces), label: "Ammo"),
     SingleElement(
         onPress: () {}, icon: const Icon(Icons.home_filled), label: "Home"),
     SingleElement(
-        onPress: () {}, icon: const Icon(Icons.usb), label: "Utility"),
-    SingleElement(
         onPress: () {},
-        icon: const Icon(Icons.cloud_upload),
-        label: "Ammunition"),
-  ];
-
-  static List<Tab> WeaponScreenTabs = [
-    const Tab(
-      child: Text('Everything'),
-    ),
-    const Tab(
-      child: Text('Assault Rifles'),
-    ),
-    const Tab(
-      child: Text('Assault Carbines'),
-    ),
-    const Tab(
-      child: Text('Bolt Action Rifles'),
-    ),
-    const Tab(
-      child: Text('Designated Marksman Rifles'),
-    ),
-    const Tab(
-      child: Text('Light Machine Guns'),
-    ),
-    const Tab(
-      child: Text('Personal Defence Weapon'),
-    ),
-    const Tab(
-      child: Text('Pistols'),
-    ),
-    const Tab(
-      child: Text('Shotguns'),
-    ),
-    const Tab(
-      child: Text('Submachine Guns'),
-    ),
+        icon: const Icon(Icons.shopping_cart_rounded),
+        label: "Cart"),
+    SingleElement(
+        onPress: () {}, icon: const Icon(Icons.person), label: "Account"),
   ];
 
   //Styles & Decorations
   static TextStyle soft = const TextStyle(fontFamily: "Inter", fontSize: 12.0);
+  static TextStyle softwhite = const TextStyle(fontFamily: "Inter", fontSize: 12.0, color: Colors.white);
 
   static TextStyle headings = const TextStyle(
       fontFamily: "Inter SemiBold", fontSize: 24.0, color: Colors.red);
 
+  static TextStyle ammoheadings = const TextStyle(
+      fontFamily: "Bender", fontSize: 24.0, color: Colors.white);
+
   static TextStyle textButton = const TextStyle(
       fontFamily: "Inter SemiBold", fontSize: 16.0, color: Colors.red);
+
+  static TextStyle bender = const TextStyle(fontFamily: "Bender");
+  static TextStyle benderWhite = const TextStyle(fontFamily: "Bender", color: Colors.white);
+  static TextStyle benderWhiteSmall = const TextStyle(fontFamily: "Bender", color: Colors.white, fontSize: 12.0);
 
   static TextStyle attachmentHeading = const TextStyle(
       fontFamily: "Inter SemiBold", fontSize: 18.0, color: Colors.red);
@@ -226,11 +202,45 @@ class constants {
     "Rear Sight": 0.4,
     "Grip": 0.3,
     "Stock": 0.6,
-    "Optic" : 0.4,
-    "Charging Handle" : 0.4,
-    "Front Sight" : 0.4,
-    "Buffer Tube" : 0.4,
-    "Upper Receiver" : 0.6,
-    "Barrel" : 0.8,
+    "Optic": 0.4,
+    "Charging Handle": 0.4,
+    "Front Sight": 0.4,
+    "Buffer Tube": 0.4,
+    "Upper Receiver": 0.6,
+    "Barrel": 0.8,
   };
+
+  //Initializer
+    static List<Tab> WeaponScreenTabs = [
+    Tab(
+      child: Text('Everything', style: bender),
+    ),
+    Tab(
+      child: Text('Assault Rifles', style: bender),
+    ),
+    Tab(
+      child: Text('Assault Carbines', style: bender),
+    ),
+    Tab(
+      child: Text('Bolt Action Rifles', style: bender),
+    ),
+    Tab(
+      child: Text('Designated Marksman Rifles', style: bender),
+    ),
+    Tab(
+      child: Text('Light Machine Guns', style: bender),
+    ),
+    Tab(
+      child: Text('Personal Defence Weapon', style: bender),
+    ),
+    Tab(
+      child: Text('Pistols', style: bender),
+    ),
+    Tab(
+      child: Text('Shotguns', style: bender),
+    ),
+    Tab(
+      child: Text('Submachine Guns', style: bender),
+    ),
+  ];
 }

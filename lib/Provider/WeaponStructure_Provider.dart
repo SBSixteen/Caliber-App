@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:calibre/Model/Attachment.dart';
 import 'package:calibre/Model/WeaponStructure.dart';
 import 'package:calibre/Provider/Attachment_Provider.dart';
+import 'package:calibre/Provider/Weapon_Provider.dart';
 import 'package:calibre/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:riverpod/src/framework.dart';
@@ -18,7 +19,6 @@ Future<List<String>> getWeaponAttachmentPositions(GetWeaponAttachmentPositionsRe
 
 @riverpod
 Future<WeaponStructure> getDefaultWeaponStructureOf(GetDefaultWeaponStructureOfRef ref, String weaponName){
-  print("are we trying?");
   return WeaponStructureService().getDefaultWeaponStructureOf(weaponName);
 }
 
@@ -38,8 +38,8 @@ class WeaponStructureService {
     var a = WeaponStructure();
     List<Attachment> attachments = await AttachmentService().getDefaultWeaponParts(weaponName);
 
-    print(attachments);
-
+    a.setWeapon(await WeaponService().getWeaponFromName(weaponName));
+    
     for(Attachment i in attachments){
       a.addAttachment(i.AttachmentPart,i);
     }

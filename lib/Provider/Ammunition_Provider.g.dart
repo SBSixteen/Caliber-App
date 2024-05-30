@@ -160,5 +160,20 @@ class _GetAmmunitionByCaliberProviderElement
   @override
   String get caliber => (origin as GetAmmunitionByCaliberProvider).caliber;
 }
+
+String _$getCalibersHash() => r'f9403b1056697b6086f1dccb871ff6c0c820ea97';
+
+/// See also [getCalibers].
+@ProviderFor(getCalibers)
+final getCalibersProvider = AutoDisposeFutureProvider<List<String>>.internal(
+  getCalibers,
+  name: r'getCalibersProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$getCalibersHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GetCalibersRef = AutoDisposeFutureProviderRef<List<String>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

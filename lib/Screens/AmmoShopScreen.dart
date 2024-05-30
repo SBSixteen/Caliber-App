@@ -1,28 +1,27 @@
 // ignore_for_file: use_key_in_widget_constructors
-
+import 'package:calibre/Components/BottomNavBar/BottomNavBar.dart';
+import 'package:calibre/Components/Lists/AmmunitionTypeList.dart';
+import 'package:calibre/Provider/Ammunition_Provider.dart';
+import 'package:calibre/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../Components/BottomNavBar/BottomNavBar.dart';
-import '../Components/Lists/WeaponTypeList.dart';
-import '../constants.dart';
-
-class WeaponShopScreen extends StatefulWidget {
+class AmmoShopScreen extends ConsumerWidget{
   @override
-  State<StatefulWidget> createState() => _WeaponShopScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    
+    final calibers = ref.watch(getCalibersProvider);
 
-class _WeaponShopScreenState extends State<WeaponShopScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return DefaultTabController(
-      initialIndex: constants.currentweaponsindex,
-      length: constants.WeaponScreenTabs.length,
-      child: Scaffold(
-        appBar: AppBar(
+    return calibers.when(data: (data) {
+      return DefaultTabController(
+        length: data.length,
+        initialIndex: constants.currentammoindex,
+        child: Scaffold(
+          appBar: AppBar(
           centerTitle: true,
           title: const Text(
-            "Weapons",
+            "Ammunition",
             style: TextStyle(fontFamily: "Inter", color: Colors.white),
           ),
           flexibleSpace: Container(
@@ -40,7 +39,6 @@ class _WeaponShopScreenState extends State<WeaponShopScreen> {
               FirebaseAuth.instance.signOut();
               constants.someUser = null;
             }, icon: const Icon(Icons.exit_to_app)),
- 
           ],
           bottom: TabBar(
             labelStyle: const TextStyle(
@@ -50,9 +48,11 @@ class _WeaponShopScreenState extends State<WeaponShopScreen> {
                 color: Color.fromARGB(255, 128, 128, 128)),
             indicatorColor: Colors.white,
             isScrollable: true,
-            tabs: constants.WeaponScreenTabs,
+            tabs: data.map((e) => Tab(
+              child: Text(e , style: const TextStyle(fontFamily: "Bender"),),
+            )).toList(),
             onTap: (value) {
-              constants.currentweaponsindex = value;
+              constants.currentammoindex = value;
             },
             
           ),
@@ -60,26 +60,19 @@ class _WeaponShopScreenState extends State<WeaponShopScreen> {
         ),
         body: Column(
           children: [
-            const Flexible(
-              child: TabBarView(
-                children: [
-                  WeaponTypeList(type: ""),
-                  WeaponTypeList(type: "AR"),
-                  WeaponTypeList(type: "CAR"),
-                  WeaponTypeList(type: "SR"),
-                  WeaponTypeList(type: "DMR"),
-                  WeaponTypeList(type: "LMG"),
-                  WeaponTypeList(type: "PDW"),
-                  WeaponTypeList(type: "PST"),
-                  WeaponTypeList(type: "SG"),
-                  WeaponTypeList(type: "SMG"),
-                ],
-              ),
+            Flexible(child: TabBarView(
+              children: data.map((e) => AmmunitionTypeList(e)).toList()
+            ),
             ),
             BottomNavBar()
           ],
         ),
-      ),
-    );
+        )
+      );
+    }, error: (error, stackTrace) {
+      return constants.defaultError;
+    }, loading: () {
+      return constants.bigLoader;
+    },);
   }
 }

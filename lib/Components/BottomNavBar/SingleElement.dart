@@ -19,7 +19,7 @@ class _SingleElementState extends State<SingleElement> {
     return Column(
       children: [
         IconButton(
-          onPressed: () {widget.onPress;},
+          onPressed: () {widget.onPress();},
           icon: widget.icon,
           color: Colors.red,
         ),
