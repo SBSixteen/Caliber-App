@@ -1,4 +1,6 @@
 // ignore_for_file: file_names
+import 'package:calibre/Model/Attachment.dart';
+import 'package:calibre/Provider/Attachment_Provider.dart';
 import 'package:calibre/Screens/WeaponInquiry.dart';
 import 'package:calibre/Model/Weapon.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,9 @@ class WeaponShopCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     String makeURL = weapon.WeaponMake.replaceAll(" ", "%20");
     String weaponURL = weapon.WeaponName.replaceAll(" ", "%20");
+
+    final wepStruct =
+        ref.watch(GetDefaultWeaponPartsProvider(weapon.WeaponName));
 
     return Animate(
       effects: [
@@ -34,7 +39,7 @@ class WeaponShopCard extends ConsumerWidget {
                   builder: (context) => WeaponInquiry(weapon: weapon)));
         },
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.25,
+          height: MediaQuery.of(context).size.height * 0.28,
           child: Card(
               surfaceTintColor: constants.cardSurfaceTint,
               color: constants.cardBackground,
@@ -77,44 +82,81 @@ class WeaponShopCard extends ConsumerWidget {
                                   fontSize: 16,
                                   color: Color.fromARGB(255, 153, 153, 153)),
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Transform.translate(
-                                  offset: const Offset(0, -3),
-                                  child: Text(
-                                    constants.formatter.format(
-                                        weapon.WeaponPrice *
-                                            weapon.WeaponDiscount),
-                                    style: TextStyle(
-                                        fontFamily: "Inter Bold",
-                                        fontSize: 24,
-                                        color: (weapon.WeaponPrice *
-                                                    weapon.WeaponDiscount <
-                                                weapon.WeaponPrice)
-                                            ? const Color.fromARGB(
-                                                255, 2, 107, 0)
-                                            : Colors.red),
-                                  ),
-                                ),
-                                Transform.translate(
-                                  offset: const Offset(0, -6),
-                                  child: Text(
-                                    constants.formatter
-                                        .format(weapon.WeaponPrice),
-                                    style: const TextStyle(
-                                        fontFamily: "Inter",
-                                        fontSize: 12,
-                                        decoration: TextDecoration.lineThrough,
-                                        decorationColor:
-                                            Color.fromARGB(255, 153, 153, 153),
-                                        color:
-                                            Color.fromARGB(255, 153, 153, 153)),
-                                  ),
-                                ),
-                              ],
-                            )
+                            wepStruct.when(
+                              data: (data) {
+                                if (data.isEmpty) {
+                                  return Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Transform.translate(
+                                          offset: const Offset(0, -3),
+                                          child: Text(
+                                            constants.formatter.format(
+                                                weapon.WeaponPrice *
+                                                    weapon.WeaponDiscount),
+                                            style: const TextStyle(
+                                              fontFamily: "Inter Bold",
+                                              fontSize: 24,
+                                              color: Colors.grey,
+                                            ),
+                                          )),
+                                    ],
+                                  );
+                                }
+
+                                double sum = 0;
+
+                                for (Attachment i in data) {
+                                  sum += i.AttachmentPrice;
+                                }
+
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Transform.translate(
+                                      offset: const Offset(0, -3),
+                                      child: Text(
+                                        constants.formatter.format(sum),
+                                        style: TextStyle(
+                                            fontFamily: "Inter Bold",
+                                            fontSize: 24,
+                                            color: (sum < weapon.WeaponPrice)
+                                                ? const Color.fromARGB(
+                                                    255, 2, 107, 0)
+                                                : Colors.red),
+                                      ),
+                                    ),
+                                    Transform.translate(
+                                      offset: const Offset(0, -6),
+                                      child: Text(
+                                        constants.formatter
+                                            .format(weapon.WeaponPrice * weapon.WeaponDiscount),
+                                        style: const TextStyle(
+                                            fontFamily: "Inter",
+                                            fontSize: 12,
+                                            decoration:
+                                                TextDecoration.lineThrough,
+                                            decorationColor: Color.fromARGB(
+                                                255, 153, 153, 153),
+                                            color: Color.fromARGB(
+                                                255, 153, 153, 153)),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                              error: (error, stackTrace) {
+                                return Text(
+                                  "ERROR",
+                                  style: constants.soft,
+                                );
+                              },
+                              loading: () {
+                                return constants.smolLoader;
+                              },
+                            ),
                           ],
                         ),
                         SizedBox(

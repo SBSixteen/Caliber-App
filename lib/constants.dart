@@ -9,8 +9,6 @@ import 'Components/BottomNavBar/SingleElement.dart';
 
 class constants {
   //Provider
-  static StateProvider<WeaponStructure> weaponPreset =
-      StateProvider<WeaponStructure>((ref) => WeaponStructure());
   static StateProvider<Attachment?> inFocusAttachment =
       StateProvider<Attachment?>((ref) => null);
   static StateProvider<List<WeaponStructure>> cart =
@@ -52,6 +50,24 @@ class constants {
   //WeaponStructure
   static String endpointGetWeaponStructure =
       "api/WeaponStructure/GetWeaponStructureOf?weaponName=";
+  
+  //Wishlist
+    static String endpointGetWishlistOf =
+      "https://localhost:7069/api/Wishlist/GetWishlist?email=";
+
+          static String endpointPostWishlistOf(String email, String name){
+
+            email = email.replaceAll("@", "%40");
+
+            return "${endpoint}api/Wishlist/PutWishlist?e=$email&n=$name";
+          }
+
+            static String endpointGetValueOf(String email, String name){
+
+            email = email.replaceAll("@", "%40");
+
+            return "${endpoint}api/Wishlist/GetValue?email=$email&name=$name";
+          }
 
   //Attachments
   static String endpointGetAllAttachments = "api/Attachment/GetAllAttachments";

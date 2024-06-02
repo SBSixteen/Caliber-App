@@ -1,43 +1,91 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, must_be_immutable
 
 import 'package:calibre/Components/Lists/CompatibleAmmoList.dart';
 import 'package:calibre/Components/Lists/CompatibleAttachmentList.dart';
 import 'package:calibre/Model/Weapon.dart';
+import 'package:calibre/Model/WeaponStructure.dart';
 import 'package:calibre/Provider/Attachment_Provider.dart';
+import 'package:calibre/Provider/Wishlist_Provider.dart';
+import 'package:calibre/Screens/WeaponBilling.dart';
 import 'package:calibre/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WeaponInquiry extends ConsumerWidget {
+StateProvider<WeaponStructure> weaponPreset =
+    StateProvider<WeaponStructure>((ref) => WeaponStructure());
+
+
+class WeaponInquiry extends ConsumerStatefulWidget {
   final Weapon weapon;
-  const WeaponInquiry({super.key, required this.weapon});
+
+  WeaponInquiry({super.key, required this.weapon});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    //String makeURL = weapon.WeaponMake.replaceAll(" ", "%20");
-    String weaponURL = weapon.WeaponName.replaceAll(" ", "%20");
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return _WeaponInquiryState();
+  }
+}
 
-    var attachments = constants.currentPreset.manifest.keys.toList();
-    var structure = constants.currentPreset.manifest;
+class _WeaponInquiryState extends ConsumerState<WeaponInquiry> {
+  bool toggle = false;
+  @override
+  Widget build(BuildContext context) {
+    print("$toggle at start");
 
+    String weaponURL = widget.weapon.WeaponName.replaceAll(" ", "%20");
     final count =
-        ref.watch(GetDefaultWeaponPartsCountProvider(weapon.WeaponName));
+        ref.watch(GetDefaultWeaponPartsCountProvider(widget.weapon.WeaponName));
 
+    var isWishlist = ref.watch(GetValueOfProvider(
+        constants.someUser!.email!, widget.weapon.WeaponName));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: Text(
-          weapon.WeaponName,
+          widget.weapon.WeaponName,
           style: const TextStyle(fontFamily: "Inter Bold", color: Colors.black),
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-              onPressed: () {
-                print(constants.currentPreset.manifest);
-              },
-              icon: const Icon(Icons.chevron_left)),
+          isWishlist.when(data: (data) {
+            if (data == 1) {
+              return IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.favorite,
+                    color: Colors.black,
+                  ));
+            } else {
+              return IconButton(
+                icon: !toggle
+                    ? Icon(Icons.favorite_border, color: Colors.black)
+                    : Icon(
+                        Icons.favorite,
+                        color: Colors.black,
+                      ),
+                onPressed: () {
+                  setState(() {
+                    if(!toggle){
+                      ref.watch(PostWishlistOfProvider(constants.someUser!.email!, widget.weapon.WeaponName));
+                    }
+                    toggle = true;
+                  });
+                },
+              );
+            }
+          }, error: (error, stackTrace) {
+            return IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.signal_wifi_off_rounded,
+                  color: Colors.red,
+                ));
+          }, loading: () {
+            return const CircularProgressIndicator(
+              color: Colors.red,
+            );
+          }),
         ],
         leading: IconButton(
             onPressed: () {
@@ -73,7 +121,7 @@ class WeaponInquiry extends ConsumerWidget {
                         FadeEffect(begin: 0.0, end: 1.0, duration: 600.ms)
                       ],
                       child: Text(
-                        weapon.WeaponDescription,
+                        widget.weapon.WeaponDescription,
                         style: constants.soft,
                       ),
                     ),
@@ -99,51 +147,30 @@ class WeaponInquiry extends ConsumerWidget {
                       const SizedBox(
                         height: 4,
                       ),
-                      CompatibleAmmoList(caliber: weapon.WeaponCaliber),
+                      CompatibleAmmoList(caliber: widget.weapon.WeaponCaliber),
                     ],
                   ),
                 ),
               ),
             ),
-            CompatibleAttachmentList(weaponName: weapon.WeaponName),
-            ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: attachments.length,
-              itemBuilder: (context, j) {
-                print(attachments.length);
-                return ListTile(
-                  trailing: Text(
-                    "${constants.formatter.format(structure[attachments[j]]!.AttachmentPrice)} PKR",
-                    style: constants.attachmentTilePrice,
-                  ),
-                  title: Text(structure[attachments[j]]!.AttachmentName,
-                      style: constants.attachmentHeading),
-                  subtitle: SizedBox(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          attachments[j],
-                          style: constants.soft,
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
+            CompatibleAttachmentList(weaponName: widget.weapon.WeaponName),
             count.when(
               data: (data) {
                 return data == 0
-                    ? Text(
-                        "Weapon has no default parts, hence cannot be purchased",
-                        style: constants.subtlebadnews,
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Weapon has no default parts, hence cannot be purchased",
+                          style: constants.subtlebadnews,
+                        ),
                       )
                     : InkWell(
                         onTap: () {
-                          constants.weaponCart.add(constants.currentPreset);
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (context) {
+                              return WeaponBilling();
+                            },
+                          ));
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),

@@ -19,6 +19,8 @@ class AmmoShopScreen extends ConsumerWidget{
         initialIndex: constants.currentammoindex,
         child: Scaffold(
           appBar: AppBar(
+          automaticallyImplyLeading: false,
+
           centerTitle: true,
           title: const Text(
             "Ammunition",
@@ -36,6 +38,8 @@ class AmmoShopScreen extends ConsumerWidget{
           ),
           actions: [
             IconButton(onPressed: (){
+              Navigator.pop(context);
+              constants.currentnavpage = "Weapons";
               FirebaseAuth.instance.signOut();
               constants.someUser = null;
             }, icon: const Icon(Icons.exit_to_app)),
@@ -54,7 +58,6 @@ class AmmoShopScreen extends ConsumerWidget{
             onTap: (value) {
               constants.currentammoindex = value;
             },
-            
           ),
           surfaceTintColor: Colors.red,
         ),

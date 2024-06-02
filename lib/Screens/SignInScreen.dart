@@ -1,14 +1,12 @@
 // ignore_for_file: file_names
-
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:calibre/Provider/AuthService.dart';
-import 'package:calibre/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:video_player/video_player.dart';
-import 'package:sign_in_button/sign_in_button.dart';
 
 class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
+
   @override
   State<StatefulWidget> createState() => _SignInScreenState();
 }
@@ -28,6 +26,12 @@ class _SignInScreenState extends State<SignInScreen> {
           _controller.setLooping(true);
         });
       });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -97,40 +101,36 @@ class _SignInScreenState extends State<SignInScreen> {
                       ],
                     ),
                   ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: Row(
-                                                          children: [
-                                                            const Spacer(),
-                                                            InkWell(
-                                                                child: Image.network(
-                                                                  "https://clipartcraft.com/images/facebook-logo-circle-2.png",
-                                                                  width: 40,
-                                                                  height: 40,
-                                                                ),
-                                                                onTap: () {
-                                                                }),
-                                                          ],
-                                                        ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: Row(
-                                                          children: [
-                                                            const Spacer(),
-                                                            InkWell(
-                                                                child: Image.network(
-                                                                  "https://th.bing.com/th/id/R.9230943f4e960d4311f3c8b9c28d92ab?rik=SCK0sB8EXFwNkA&pid=ImgRaw&r=0",
-                                                                  width: 40,
-                                                                  height: 40,
-                                                                ),
-                                                                onTap: () {
-                                      
-                                                                }),
-                                                          ],
-                                                        ),
-                                    ),
-
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        const Spacer(),
+                        InkWell(
+                            child: Image.network(
+                              "https://clipartcraft.com/images/facebook-logo-circle-2.png",
+                              width: 40,
+                              height: 40,
+                            ),
+                            onTap: () {}),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        const Spacer(),
+                        InkWell(
+                            child: Image.network(
+                              "https://th.bing.com/th/id/R.9230943f4e960d4311f3c8b9c28d92ab?rik=SCK0sB8EXFwNkA&pid=ImgRaw&r=0",
+                              width: 40,
+                              height: 40,
+                            ),
+                            onTap: () {}),
+                      ],
+                    ),
+                  ),
                 ],
               ).animate().fadeIn(duration: 2000.ms, delay: 7000.ms)
             ],

@@ -2,10 +2,10 @@
 
 import 'package:calibre/Model/Attachment.dart';
 import 'package:calibre/Provider/Attachment_Provider.dart';
+import 'package:calibre/Screens/WeaponInquiry.dart';
 import 'package:flutter/material.dart';
 import 'package:calibre/constants.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:calibre/Provider/Attachment_Provider.dart';
 
 class Dovetail extends ConsumerStatefulWidget {
   
@@ -50,6 +50,7 @@ class _DovetailState extends ConsumerState<Dovetail> {
                       setState(() {
                         constants.currentPreset.manifest.remove("Dovetail Mount");
                         constants.currentPreset.manifest.remove("Mount of Dovetail Mount");
+                        ref.read(weaponPreset.notifier).state = constants.currentPreset ;
                         widget.dt = null;
                       });
                       // ref.read(constants.weaponPreset.notifier).state.manifest.remove("Dovetail Mount");
@@ -111,6 +112,7 @@ class _DovetailState extends ConsumerState<Dovetail> {
                                                       setState(() {
                                                         widget.dt = data[index];
                                                         constants.currentPreset.addAttachment("Dovetail Mount", data[index]);
+                                                        ref.read(weaponPreset.notifier).state = constants.currentPreset;
                                                       });
                                                       // ref.read(dovetailAttachmentProvider.notifier).state = data[index];
                                                       // ref.read(constants.weaponPreset.notifier).state.manifest.putIfAbsent("Dovetail Mount", () => ref.read(dovetailAttachmentProvider.notifier).state!);

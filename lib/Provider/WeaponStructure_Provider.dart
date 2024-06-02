@@ -7,7 +7,6 @@ import 'package:calibre/Provider/Attachment_Provider.dart';
 import 'package:calibre/Provider/Weapon_Provider.dart';
 import 'package:calibre/constants.dart';
 import 'package:http/http.dart' as http;
-import 'package:riverpod/src/framework.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'WeaponStructure_Provider.g.dart';

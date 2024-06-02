@@ -20,6 +20,7 @@ class _WeaponShopScreenState extends State<WeaponShopScreen> {
       length: constants.WeaponScreenTabs.length,
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           centerTitle: true,
           title: const Text(
             "Weapons",
@@ -40,7 +41,6 @@ class _WeaponShopScreenState extends State<WeaponShopScreen> {
               FirebaseAuth.instance.signOut();
               constants.someUser = null;
             }, icon: const Icon(Icons.exit_to_app)),
- 
           ],
           bottom: TabBar(
             labelStyle: const TextStyle(

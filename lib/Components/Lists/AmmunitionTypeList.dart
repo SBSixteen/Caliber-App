@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:calibre/Components/Cards/AmmoCards/AmmunitionShopCard.dart';
 import 'package:calibre/Provider/Ammunition_Provider.dart';
 import 'package:calibre/constants.dart';

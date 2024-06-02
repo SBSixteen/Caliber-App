@@ -20,6 +20,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
 
     return Scaffold(
       appBar: AppBar(
+          automaticallyImplyLeading: false,
         centerTitle: true,
         leading: IconButton(
             onPressed: () {

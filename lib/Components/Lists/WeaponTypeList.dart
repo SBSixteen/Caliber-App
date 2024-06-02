@@ -1,4 +1,3 @@
-import 'package:calibre/Components/Cards/WeaponCards/DiscountedWeaponShopCard.dart';
 import 'package:calibre/Components/Cards/WeaponCards/WeaponShopCard.dart';
 import 'package:calibre/Provider/Weapon_Provider.dart';
 import 'package:calibre/constants.dart';
@@ -7,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class WeaponTypeList extends ConsumerWidget{
   final String type;
-  const WeaponTypeList({required this.type});
+  const WeaponTypeList({super.key, required this.type});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

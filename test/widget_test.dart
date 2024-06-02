@@ -5,26 +5,24 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'package:calibre/Components/Cards/WeaponCards/WeaponShopCard.dart';
+import 'package:calibre/Model/Weapon.dart';
+import 'package:calibre/Provider/Ammunition_Provider.dart';
+import 'package:calibre/Screens/WeaponShopScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:calibre/main.dart';
+import 'package:golden_toolkit/golden_toolkit.dart';
+import 'package:network_image_mock/network_image_mock.dart';
 
-void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(MainApp());
+void main() async{
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  testWidgets("Test Ammo Shop Card", (widgetTester) async {
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    await widgetTester.pumpWidget(WeaponShopCard(weapon: ));
   });
+  
+
 }
