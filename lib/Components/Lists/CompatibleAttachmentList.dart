@@ -8,25 +8,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CompatibleAttachmentList extends ConsumerWidget {
+  
   String weaponName;
-
   CompatibleAttachmentList({super.key, required this.weaponName});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    final weaponStructure =
-        ref.watch(getDefaultWeaponStructureOfProvider(weaponName));
+    final weaponStructure = ref.watch(getDefaultWeaponStructureOfProvider(weaponName));
     return weaponStructure.when(
       data: (wepStruct) {
-        print(wepStruct.manifest.length);
-        Future(() => ref.read(constants.weaponPreset.notifier).state = wepStruct);
-        final positions =
-            ref.watch(getWeaponAttachmentPositionsProvider(weaponName));
-            ref.watch(constants.inFocusAttachment);
+        constants.currentPreset = wepStruct;
+        final positions = ref.watch(getWeaponAttachmentPositionsProvider(weaponName));
         return positions.when(
           data: (data) {
-            print(data.length);
             if (data.isEmpty) {
               return const Center();
             } else {
@@ -37,15 +32,15 @@ class CompatibleAttachmentList extends ConsumerWidget {
                   itemBuilder: (context, index) {
                     final compatibleCount = ref.watch(getCountCompatibleWeaponPositionAttachmentsProvider(weaponName, data[index]));
                     return compatibleCount.when(data: (count) {
-                      if (wepStruct.manifest.containsKey(data[index])) {
+                      if (constants.currentPreset.manifest.containsKey(data[index])) {
                       return WeaponInquiryAttachmentCard(
-                          data[index], weaponName, wepStruct.manifest[data[index]]!, count);
+                          data[index], weaponName, constants.currentPreset.manifest[data[index]]!, count);
                     }else{
                       return const SizedBox.shrink();
                     }
                     }, error: (error, stackTrace) {
                       return WeaponInquiryAttachmentCard(
-                          data[index], weaponName,wepStruct.manifest[data[index]]!, 0);
+                          data[index], weaponName,constants.currentPreset.manifest[data[index]]!, 0);
                     }, loading: () {
                       return const Padding(padding: EdgeInsets.all(8.0), child: CircularProgressIndicator(color: Colors.red,),);
                     },);

@@ -580,6 +580,139 @@ class _GetDefaultWeaponPartsProviderElement
   String get weaponName => (origin as GetDefaultWeaponPartsProvider).weaponName;
 }
 
+String _$getDefaultWeaponPartsCountHash() =>
+    r'49b684e2dc9eda069af0547612ca89797fabbcc8';
+
+/// See also [getDefaultWeaponPartsCount].
+@ProviderFor(getDefaultWeaponPartsCount)
+const getDefaultWeaponPartsCountProvider = GetDefaultWeaponPartsCountFamily();
+
+/// See also [getDefaultWeaponPartsCount].
+class GetDefaultWeaponPartsCountFamily extends Family<AsyncValue<int>> {
+  /// See also [getDefaultWeaponPartsCount].
+  const GetDefaultWeaponPartsCountFamily();
+
+  /// See also [getDefaultWeaponPartsCount].
+  GetDefaultWeaponPartsCountProvider call(
+    String weaponName,
+  ) {
+    return GetDefaultWeaponPartsCountProvider(
+      weaponName,
+    );
+  }
+
+  @override
+  GetDefaultWeaponPartsCountProvider getProviderOverride(
+    covariant GetDefaultWeaponPartsCountProvider provider,
+  ) {
+    return call(
+      provider.weaponName,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getDefaultWeaponPartsCountProvider';
+}
+
+/// See also [getDefaultWeaponPartsCount].
+class GetDefaultWeaponPartsCountProvider
+    extends AutoDisposeFutureProvider<int> {
+  /// See also [getDefaultWeaponPartsCount].
+  GetDefaultWeaponPartsCountProvider(
+    String weaponName,
+  ) : this._internal(
+          (ref) => getDefaultWeaponPartsCount(
+            ref as GetDefaultWeaponPartsCountRef,
+            weaponName,
+          ),
+          from: getDefaultWeaponPartsCountProvider,
+          name: r'getDefaultWeaponPartsCountProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getDefaultWeaponPartsCountHash,
+          dependencies: GetDefaultWeaponPartsCountFamily._dependencies,
+          allTransitiveDependencies:
+              GetDefaultWeaponPartsCountFamily._allTransitiveDependencies,
+          weaponName: weaponName,
+        );
+
+  GetDefaultWeaponPartsCountProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.weaponName,
+  }) : super.internal();
+
+  final String weaponName;
+
+  @override
+  Override overrideWith(
+    FutureOr<int> Function(GetDefaultWeaponPartsCountRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GetDefaultWeaponPartsCountProvider._internal(
+        (ref) => create(ref as GetDefaultWeaponPartsCountRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        weaponName: weaponName,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<int> createElement() {
+    return _GetDefaultWeaponPartsCountProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetDefaultWeaponPartsCountProvider &&
+        other.weaponName == weaponName;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, weaponName.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin GetDefaultWeaponPartsCountRef on AutoDisposeFutureProviderRef<int> {
+  /// The parameter `weaponName` of this provider.
+  String get weaponName;
+}
+
+class _GetDefaultWeaponPartsCountProviderElement
+    extends AutoDisposeFutureProviderElement<int>
+    with GetDefaultWeaponPartsCountRef {
+  _GetDefaultWeaponPartsCountProviderElement(super.provider);
+
+  @override
+  String get weaponName =>
+      (origin as GetDefaultWeaponPartsCountProvider).weaponName;
+}
+
 String _$getDovetailAttachmentsHash() =>
     r'48f9da49bb9405354a06be74ba1bdc5e688d989b';
 

@@ -16,13 +16,14 @@ class CompatibleAmmoList extends ConsumerWidget {
       data: (data) {
         if (data.isEmpty) {
           return Center(
-              child: Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: Text(
-              "No Compatible Ammunition Found",
-              style: constants.subtlebadnews,
+            child: Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: Text(
+                "No Compatible Ammunition Found",
+                style: constants.subtlebadnews,
+              ),
             ),
-          ));
+          );
         } else {
           return Center(
             child: SizedBox(
@@ -33,114 +34,127 @@ class CompatibleAmmoList extends ConsumerWidget {
                 itemBuilder: (context, index) {
                   var k =
                       "${data[index].AmmunitionCaliber} ${data[index].AmmunitionVariant}";
-                  k = k.replaceAll(" ", "%20");
+                  k = k.replaceAll(
+                      " ", "%20"); // Ensure URL is correctly encoded
+
                   return Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Container(
-                        width: 256,
-                        decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(16)),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black,
-                                offset: Offset(0, 10),
-                                blurRadius: 30,
-                                spreadRadius: -5,
-                              ),
-                            ],
-                            gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Color.fromARGB(255, 96, 96, 96),
-                                  Color.fromARGB(255, 64, 64, 64),
-                                  Color.fromARGB(255, 32, 32, 32),
-                                  Colors.black,
-                                ],
-                                stops: [
-                                  0.1,
-                                  0.3,
-                                  0.9,
-                                  1.0
-                                ])),
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Stack(
-                            alignment: Alignment.bottomRight,
-                            children: [
-                              Image.network(constants.endpoint +
-                                  constants.endpointGetAmmunitionPicture +
-                                  k),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 5.0, horizontal: 5.0),
-                                child: Text(
-                                  data[index].AmmunitionVariant,
-                                  style: constants.ammunitionVariant,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(6.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Penetration",
-                                      style: constants.ammunitionVariant,
-                                    ),
-                                    ColorBar(),
-                                    Row(
-                                      children: [
-                                        SizedBox(
-                                          width: ((data[index]
-                                                                  .AmmunitionPenn >
-                                                              60
-                                                          ? 60
-                                                          : data[index]
-                                                              .AmmunitionPenn) /
-                                                      60) *
-                                                  100 +
-                                              14,
-                                        ),
-                                        const Icon(
-                                          Icons.arrow_drop_up_outlined,
-                                          size: 8.0,
-                                          color: Colors.white,
-                                        )
-                                      ],
-                                    ),
-                                    Text(
-                                      "Stopping Power",
-                                      style: constants.ammunitionVariant,
-                                    ),
-                                    ColorBar(),
-                                    Row(
-                                      children: [
-                                        SizedBox(
-                                          width: ((data[index]
-                                                                  .AmmunitionFrag >
-                                                              100
-                                                          ? 100
-                                                          : data[index]
-                                                              .AmmunitionFrag) /
-                                                      100) *
-                                                  100 +
-                                              14,
-                                        ),
-                                        const Icon(
-                                          Icons.arrow_drop_up_outlined,
-                                          size: 8.0,
-                                          color: Colors.white,
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
+                    padding: const EdgeInsets.all(16.0),
+                    child: Container(
+                      width: 256,
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(16)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black,
+                            offset: Offset(0, 10),
+                            blurRadius: 30,
+                            spreadRadius: -5,
                           ),
+                        ],
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color.fromARGB(255, 96, 96, 96),
+                            Color.fromARGB(255, 64, 64, 64),
+                            Color.fromARGB(255, 32, 32, 32),
+                            Colors.black,
+                          ],
+                          stops: [0.1, 0.3, 0.9, 1.0],
                         ),
-                      ));
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Stack(
+                          alignment: Alignment.bottomRight,
+                          children: [
+                            SizedBox(
+                              child: Image.network(
+                                constants.endpoint +
+                                    constants.endpointGetAmmunitionPicture +
+                                    k,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const Icon(Icons.error, color: Colors.red);
+                                },
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                  if (loadingProgress == null) return child;
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 5.0, horizontal: 5.0),
+                              child: Text(
+                                data[index].AmmunitionVariant,
+                                style: constants.ammunitionVariant,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(6.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Penetration",
+                                    style: constants.ammunitionVariant,
+                                  ),
+                                ColorBar(),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        height: 8,
+                                        width: ((data[index].AmmunitionPenn > 60
+                                                        ? 60
+                                                        : data[index]
+                                                            .AmmunitionPenn) /
+                                                    60) *
+                                                100 +
+                                            14,
+                                      ),
+                                      const Icon(
+                                        Icons.arrow_drop_up_outlined,
+                                        size: 8.0,
+                                        color: Colors.white,
+                                      )
+                                    ],
+                                  ),
+                                  Text(
+                                    "Stopping Power",
+                                    style: constants.ammunitionVariant,
+                                  ),
+                                  ColorBar(),
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        height: 8,
+                                        width: ((data[index].AmmunitionFrag >
+                                                            100
+                                                        ? 100
+                                                        : data[index]
+                                                            .AmmunitionFrag) /
+                                                    100) *
+                                                100 +
+                                            14,
+                                      ),
+                                      const Icon(
+                                        Icons.arrow_drop_up_outlined,
+                                        size: 8.0,
+                                        color: Colors.white,
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
                 },
               ),
             ),

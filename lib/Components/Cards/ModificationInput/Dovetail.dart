@@ -5,17 +5,24 @@ import 'package:calibre/Provider/Attachment_Provider.dart';
 import 'package:flutter/material.dart';
 import 'package:calibre/constants.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:calibre/Provider/Attachment_Provider.dart';
 
-StateProvider<Attachment?> dovetailAttachmentProvider = StateProvider<Attachment?>((ref) => null);
-
-class Dovetail extends ConsumerWidget {
+class Dovetail extends ConsumerStatefulWidget {
   
+  Attachment? dt;
+  Dovetail(this.dt, {super.key});
 
-  Dovetail({super.key});
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return _DovetailState();
+  }
+  
+}
 
-    final selection = ref.watch(dovetailAttachmentProvider);
+class _DovetailState extends ConsumerState<Dovetail> {
+
+    @override
+  Widget build(BuildContext context) {
 
     return ExpansionTile(
       title: Text(
@@ -38,16 +45,21 @@ class Dovetail extends ConsumerWidget {
                       "Dovetail Mount",
                       style: constants.attachmentHeading,
                     ) ,
-                    selection != null ? const Spacer(): const SizedBox.shrink(),
-                    selection != null ? IconButton(onPressed: () {
-                      ref.read(constants.weaponPreset.notifier).state.manifest.remove("Dovetail Mount");
-                      ref.read(constants.weaponPreset.notifier).state.manifest.remove("Mount of Dovetail Mount");
-                      ref.read(dovetailAttachmentProvider.notifier).state = null;
+                    widget.dt != null ? const Spacer(): const SizedBox.shrink(),
+                    widget.dt != null ? IconButton(onPressed: () {
+                      setState(() {
+                        constants.currentPreset.manifest.remove("Dovetail Mount");
+                        constants.currentPreset.manifest.remove("Mount of Dovetail Mount");
+                        widget.dt = null;
+                      });
+                      // ref.read(constants.weaponPreset.notifier).state.manifest.remove("Dovetail Mount");
+                      // ref.read(constants.weaponPreset.notifier).state.manifest.remove("Mount of Dovetail Mount");
+                      // ref.read(dovetailAttachmentProvider.notifier).state = null;
                     }, icon: const Icon(Icons.remove_circle, color: Colors.red,)) : const SizedBox.shrink()
                   ],
                 ),
               ),
-              selection == null ? Row(
+              widget.dt == null ? Row(
                 children: [
                   const Spacer(),
                   Padding(
@@ -96,8 +108,12 @@ class Dovetail extends ConsumerWidget {
                                                 itemBuilder: (context, index) {
                                                   return InkWell(
                                                     onTap: () {
-                                                      ref.read(dovetailAttachmentProvider.notifier).state = data[index];
-                                                      ref.read(constants.weaponPreset.notifier).state.manifest.putIfAbsent("Dovetail Mount", () => ref.read(dovetailAttachmentProvider.notifier).state!);
+                                                      setState(() {
+                                                        widget.dt = data[index];
+                                                        constants.currentPreset.addAttachment("Dovetail Mount", data[index]);
+                                                      });
+                                                      // ref.read(dovetailAttachmentProvider.notifier).state = data[index];
+                                                      // ref.read(constants.weaponPreset.notifier).state.manifest.putIfAbsent("Dovetail Mount", () => ref.read(dovetailAttachmentProvider.notifier).state!);
                                                       Navigator.pop(context);
                                                     },
                                                     child: ListTile(
@@ -168,10 +184,10 @@ class Dovetail extends ConsumerWidget {
               Row(
                 children: [
                   SizedBox(
-                                width: MediaQuery.of(context).size.width*constants.weaponInquiryCardAttachment[selection.AttachmentPart]!,
+                                width: MediaQuery.of(context).size.width*constants.weaponInquiryCardAttachment[widget.dt!.AttachmentPart]!,
                                 child: Image.network(
                                   fit: BoxFit.contain,
-                                  constants.endpointGetAttachmentPicture(selection.AttachmentName, selection.AttachmentPart),
+                                  constants.endpointGetAttachmentPicture(widget.dt!.AttachmentName, widget.dt!.AttachmentPart),
                               ),
                     ),
 
@@ -186,4 +202,3 @@ class Dovetail extends ConsumerWidget {
   }
   
 }
-

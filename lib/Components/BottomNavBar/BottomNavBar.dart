@@ -4,6 +4,7 @@ import 'package:calibre/Components/BottomNavBar/SingleElement.dart';
 import 'package:calibre/Components/Cards/WeaponCards/WeaponShopCard.dart';
 import 'package:calibre/Model/Weapon.dart';
 import 'package:calibre/Screens/AmmoShopScreen.dart';
+import 'package:calibre/Screens/CartScreen.dart';
 import 'package:calibre/Screens/WeaponShopScreen.dart';
 import 'package:calibre/constants.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +58,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
               label: "Home"),
           SingleElement(
               onPress: () {
-                print(constants.currentnavpage);
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (context) {
+                    return CartScreen();
+                  },
+                ));
               },
               icon: const Icon(Icons.shopping_cart_rounded),
               label: "Cart"),

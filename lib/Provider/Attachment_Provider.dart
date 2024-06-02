@@ -35,6 +35,12 @@ Future<List<Attachment>> getDefaultWeaponParts(
 }
 
 @riverpod
+Future<int> getDefaultWeaponPartsCount(
+    GetDefaultWeaponPartsCountRef ref, String weaponName) {
+  return AttachmentService().getDefaultWeaponPartsCount(weaponName);
+}
+
+@riverpod
 Future<List<Attachment>> getDovetailAttachments(GetDovetailAttachmentsRef ref) {
   return AttachmentService().getMountableDovetailAttachments();
 }
@@ -92,7 +98,7 @@ class AttachmentService {
     var response = await http.get(Uri.parse(
         constants.endpoint + constants.endpointGetDovetailAttachments));
 
-    print(response.statusCode);
+    //print(response.statusCode);
 
     if (response.statusCode == 200) {
       var json = await jsonDecode(response.body);
@@ -195,6 +201,20 @@ class AttachmentService {
       return attc;
     } else {
       return [];
+    }
+  }
+
+    Future<int> getDefaultWeaponPartsCount(String gunname) async {
+    var response = await http.get(Uri.parse(constants.endpoint +
+        constants.endpointGetDefaultKitCountOfWeapon +
+        gunname));
+
+    if (response.statusCode == 200) {
+      var json = await jsonDecode(response.body);
+      final attc = int.parse(json.toString());
+      return attc;
+    } else {
+      return 0;
     }
   }
 }

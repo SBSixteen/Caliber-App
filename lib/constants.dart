@@ -15,6 +15,10 @@ class constants {
       StateProvider<Attachment?>((ref) => null);
   static StateProvider<List<WeaponStructure>> cart =
       StateProvider<List<WeaponStructure>>((ref) => []);
+  
+  static List<WeaponStructure> weaponCart = [];
+  static Map<String, int> ammoCart = {};
+  static WeaponStructure currentPreset = WeaponStructure();
 
   static var formatter = NumberFormat('###,000');
 
@@ -40,6 +44,11 @@ class constants {
   static String endpointGetAmmunitionPicture =
       "api/Ammunition/GetAmmunitionImage?caliber=";
 
+  static String endpointGetAmmunition(String caliber, String variant){
+    caliber = caliber.replaceAll(" ", "%20");
+    variant = variant.replaceAll(" ", "%20");
+    return "${endpoint}api/Ammunition/GetAmmunition?caliber=$caliber&variant=$variant";
+  }
   //WeaponStructure
   static String endpointGetWeaponStructure =
       "api/WeaponStructure/GetWeaponStructureOf?weaponName=";
@@ -54,6 +63,8 @@ class constants {
       "api/Attachment/GetDovetailMountableAttachment";
   static String endpointGetMountableAttachments =
       "api/Attachment/GetMountableAttachment";
+  static String endpointGetDefaultKitCountOfWeapon = 
+  "api/Attachment/GetDefaultKitCountOfWeapon?gunname=";
 
   static String endpointGetDefaultWeaponPartByPosition(
       String gunname, String position) {
@@ -142,6 +153,9 @@ class constants {
 
   static TextStyle ammunitionVariant =
       const TextStyle(color: Colors.white, fontFamily: "Inter", fontSize: 12.0);
+
+        static TextStyle ammoPrice = const TextStyle(
+      fontFamily: "Bender", fontSize: 22.0, color: Colors.white);
 
   //Colors
   static Color cardBackground = Colors.white;

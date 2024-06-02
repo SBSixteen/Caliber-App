@@ -37,15 +37,11 @@ class WeaponStructureService {
 
     var a = WeaponStructure();
     List<Attachment> attachments = await AttachmentService().getDefaultWeaponParts(weaponName);
-
     a.setWeapon(await WeaponService().getWeaponFromName(weaponName));
-    
     for(Attachment i in attachments){
       a.addAttachment(i.AttachmentPart,i);
     }
-
     return a;
-
   }
 
   Future<List<String>> getWeaponAttachmentPositions(String weaponName) async {

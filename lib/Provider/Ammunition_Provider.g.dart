@@ -175,5 +175,149 @@ final getCalibersProvider = AutoDisposeFutureProvider<List<String>>.internal(
 );
 
 typedef GetCalibersRef = AutoDisposeFutureProviderRef<List<String>>;
+String _$getAmmunitionHash() => r'b6f542ddd06e5b689b9e2939792bb2521442939a';
+
+/// See also [getAmmunition].
+@ProviderFor(getAmmunition)
+const getAmmunitionProvider = GetAmmunitionFamily();
+
+/// See also [getAmmunition].
+class GetAmmunitionFamily extends Family<AsyncValue<Ammunition>> {
+  /// See also [getAmmunition].
+  const GetAmmunitionFamily();
+
+  /// See also [getAmmunition].
+  GetAmmunitionProvider call(
+    String caliber,
+    String variant,
+  ) {
+    return GetAmmunitionProvider(
+      caliber,
+      variant,
+    );
+  }
+
+  @override
+  GetAmmunitionProvider getProviderOverride(
+    covariant GetAmmunitionProvider provider,
+  ) {
+    return call(
+      provider.caliber,
+      provider.variant,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getAmmunitionProvider';
+}
+
+/// See also [getAmmunition].
+class GetAmmunitionProvider extends AutoDisposeFutureProvider<Ammunition> {
+  /// See also [getAmmunition].
+  GetAmmunitionProvider(
+    String caliber,
+    String variant,
+  ) : this._internal(
+          (ref) => getAmmunition(
+            ref as GetAmmunitionRef,
+            caliber,
+            variant,
+          ),
+          from: getAmmunitionProvider,
+          name: r'getAmmunitionProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getAmmunitionHash,
+          dependencies: GetAmmunitionFamily._dependencies,
+          allTransitiveDependencies:
+              GetAmmunitionFamily._allTransitiveDependencies,
+          caliber: caliber,
+          variant: variant,
+        );
+
+  GetAmmunitionProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.caliber,
+    required this.variant,
+  }) : super.internal();
+
+  final String caliber;
+  final String variant;
+
+  @override
+  Override overrideWith(
+    FutureOr<Ammunition> Function(GetAmmunitionRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GetAmmunitionProvider._internal(
+        (ref) => create(ref as GetAmmunitionRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        caliber: caliber,
+        variant: variant,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<Ammunition> createElement() {
+    return _GetAmmunitionProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetAmmunitionProvider &&
+        other.caliber == caliber &&
+        other.variant == variant;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, caliber.hashCode);
+    hash = _SystemHash.combine(hash, variant.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin GetAmmunitionRef on AutoDisposeFutureProviderRef<Ammunition> {
+  /// The parameter `caliber` of this provider.
+  String get caliber;
+
+  /// The parameter `variant` of this provider.
+  String get variant;
+}
+
+class _GetAmmunitionProviderElement
+    extends AutoDisposeFutureProviderElement<Ammunition> with GetAmmunitionRef {
+  _GetAmmunitionProviderElement(super.provider);
+
+  @override
+  String get caliber => (origin as GetAmmunitionProvider).caliber;
+  @override
+  String get variant => (origin as GetAmmunitionProvider).variant;
+}
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

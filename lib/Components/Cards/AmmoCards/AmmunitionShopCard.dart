@@ -7,13 +7,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AmmunitionShopCard extends ConsumerWidget {
+class AmmunitionShopCard extends ConsumerStatefulWidget {
   Ammunition ammo;
-
+  int qty = 0;
   AmmunitionShopCard(this.ammo, {super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return _AmmunitionShopCardState();
+  }
+}
+
+class _AmmunitionShopCardState extends ConsumerState<AmmunitionShopCard> {
+  @override
+  Widget build(BuildContext context) {
     return Animate(
       effects: [
         BlurEffect(
@@ -64,7 +71,9 @@ class AmmunitionShopCard extends ConsumerWidget {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.2,
                       child: Image.network(
-                          "${constants.endpoint}${constants.endpointGetAmmunitionPicture}${ammo.AmmunitionCaliber} ${ammo.AmmunitionVariant}"),
+                        "${constants.endpoint}${constants.endpointGetAmmunitionPicture}${widget.ammo.AmmunitionCaliber} ${widget.ammo.AmmunitionVariant}",
+                        fit: BoxFit.contain,
+                      ),
                     ),
                     const Spacer(),
                     Column(
@@ -72,10 +81,108 @@ class AmmunitionShopCard extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          ammo.AmmunitionVariant,
+                          widget.ammo.AmmunitionVariant,
                           style: constants.ammoheadings,
                         ),
-                        BulletStats(ammo.AmmunitionPenn, ammo.AmmunitionFrag)
+                        BulletStats(widget.ammo.AmmunitionPenn,
+                            widget.ammo.AmmunitionFrag),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
+                          child: Text(
+                            widget.qty < 2
+                                ? "${constants.formatter.format(widget.ammo.AmmunitionPrice)} PKR/Round"
+                                : "${constants.formatter.format(widget.ammo.AmmunitionPrice * widget.qty)} PKR",
+                            style: constants.ammoPrice,
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            IconButton(
+                              onPressed: widget.qty == 0
+                                  ? null
+                                  : () {
+                                      setState(() {
+                                        widget.qty--;
+                                      });
+                                    },
+                              icon: Icon(
+                                Icons.remove_circle,
+                                color: widget.qty == 0
+                                    ? Colors.grey
+                                    : Colors.white,
+                                size: 32.0,
+                              ),
+                              color: Colors.transparent,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text(
+                                "${widget.qty}",
+                                style: constants.ammoPrice,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  if(widget.qty > 4){
+                                    widget.qty+=5;
+                                    return;
+                                  }
+                                  widget.qty++;
+                                });
+                              },
+                              color: Colors.transparent,
+                              icon: const Icon(
+                                Icons.add_circle,
+                                color: Colors.white,
+                                size: 32.0,
+                              ),
+                              disabledColor: Colors.grey,
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width*0.12,
+                              child: widget.qty > 0
+                                  ? IconButton.filled(
+                                      onPressed: () {
+                                        if (constants.ammoCart.containsKey("${widget.ammo.AmmunitionCaliber}-#-${widget.ammo.AmmunitionVariant}")) {
+                                          var k = constants.ammoCart["${widget.ammo.AmmunitionCaliber}-#-${widget.ammo.AmmunitionVariant}"]!;
+
+                                          print(k);
+
+                                          k += widget.qty;
+                                          constants.ammoCart[
+                                              "${widget.ammo.AmmunitionCaliber}-#-${widget.ammo.AmmunitionVariant}"] = k;
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                                  content: Text(
+                                                      "Ammo incremented to your cart.")));
+                                        } else {
+                                          constants.ammoCart.putIfAbsent(
+                                              "${widget.ammo.AmmunitionCaliber}-#-${widget.ammo.AmmunitionVariant}",
+                                              () => widget.qty);
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                                  content: Text(
+                                                      "Ammo added to your cart.")));
+                                        }
+
+                                        widget.qty = 0;
+                                        setState(() {
+                                          
+                                        });
+                                      },
+                                      icon: const Icon(
+                                        Icons.shopping_cart_checkout_sharp,
+                                        color: Colors.white,
+                                      ),
+                                      color: Colors.purple,
+                                    )
+                                  : const SizedBox.shrink(),
+                            ),
+                          ],
+                        )
                       ],
                     )
                   ],
@@ -84,21 +191,24 @@ class AmmunitionShopCard extends ConsumerWidget {
                   tilePadding: const EdgeInsets.all(0),
                   childrenPadding: const EdgeInsets.symmetric(vertical: 10.0),
                   shape: const Border(),
-                  title: Text("Learn More", style: constants.benderWhite,),
+                  title: Text(
+                    "Learn More",
+                    style: constants.benderWhite,
+                  ),
                   children: [
-                  SizedBox(
-                      width: MediaQuery.of(context).size.width*0.8,
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.8,
                       child: Text(
                         textAlign: TextAlign.right,
                         softWrap: false,
-                        ammo.AmmunitionDescription,
+                        widget.ammo.AmmunitionDescription,
                         maxLines: 24,
                         overflow: TextOverflow.ellipsis,
                         style: constants.benderWhiteSmall,
                       ),
                     ),
                   ],
-                  )
+                )
               ],
             ),
           ),

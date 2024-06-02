@@ -2,6 +2,7 @@ import 'package:calibre/Components/BottomNavBar/BottomNavBar.dart';
 import 'package:calibre/Components/Lists/WeaponTypeList.dart';
 import 'package:calibre/Screens/SignInScreen.dart';
 import 'package:calibre/Screens/WeaponShopScreen.dart';
+import 'package:calibre/Screens/AmmoShopScreen.dart';
 import 'package:calibre/constants.dart';
 import 'package:calibre/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -40,7 +41,7 @@ class _MainAppState extends State<MainApp> {
       theme: ThemeData(
         brightness: constants.appBrightness,
       ),
-      home: WeaponShopScreen()//constants.someUser == null ? SignInScreen() : WeaponShopScreen(),
+      home: constants.someUser == null ? SignInScreen() : WeaponShopScreen(),
     );
   }
 }
