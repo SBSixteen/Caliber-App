@@ -25,65 +25,67 @@ class WeaponBilling extends ConsumerWidget{
           Navigator.pop(context);
         }, icon: const Icon(Icons.chevron_left, color: Colors.white,)),
       ),
-      body: Column(
-        children: [
-          AccountsList(),
-          Text("$sum PKR", style: constants.attachmentTilePrice,),
-          InkWell(
-                        onTap: () {
-                          constants.weaponCart.add(constants.currentPreset);
-                          Navigator.pop(context);
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height * 0.05,
-                              decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(16)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black,
-                                      offset: Offset(0, 10),
-                                      blurRadius: 30,
-                                      spreadRadius: -5,
-                                    ),
-                                  ],
-                                  gradient: LinearGradient(
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomCenter,
-                                      colors: [
-                                        Color.fromARGB(255, 116, 58, 58),
-                                        Color.fromARGB(255, 179, 65, 65),
-                                        Color.fromARGB(255, 184, 16, 16),
-                                        Colors.red,
-                                      ],
-                                      stops: [
-                                        0.1,
-                                        0.3,
-                                        0.9,
-                                        1.0
-                                      ])),
-                              child: const Padding(
-                                padding: EdgeInsets.all(10.0),
-                                child: Row(
-                                  children: [
-                                    Spacer(),
-                                    Text(
-                                      "Confirm",
-                                      style: TextStyle(
-                                          fontFamily: "Inter SemiBold",
-                                          fontSize: 20.0,
-                                          color: Colors.white),
-                                    ),
-                                    Spacer()
-                                  ],
-                                ),
-                              )),
-                        ),
-                      )
-        ],
+      body: SizedBox(
+        child: ListView(
+          children: [
+            AccountsList(),
+            Text("$sum PKR", style: constants.attachmentTilePrice,),
+            InkWell(
+                          onTap: () {
+                            constants.weaponCart.add(constants.currentPreset);
+                            Navigator.pop(context);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                height: MediaQuery.of(context).size.height * 0.05,
+                                decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(16)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black,
+                                        offset: Offset(0, 10),
+                                        blurRadius: 30,
+                                        spreadRadius: -5,
+                                      ),
+                                    ],
+                                    gradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          Color.fromARGB(255, 116, 58, 58),
+                                          Color.fromARGB(255, 179, 65, 65),
+                                          Color.fromARGB(255, 184, 16, 16),
+                                          Colors.red,
+                                        ],
+                                        stops: [
+                                          0.1,
+                                          0.3,
+                                          0.9,
+                                          1.0
+                                        ])),
+                                child: const Padding(
+                                  padding: EdgeInsets.all(10.0),
+                                  child: Row(
+                                    children: [
+                                      Spacer(),
+                                      Text(
+                                        "Confirm",
+                                        style: TextStyle(
+                                            fontFamily: "Inter SemiBold",
+                                            fontSize: 20.0,
+                                            color: Colors.white),
+                                      ),
+                                      Spacer()
+                                    ],
+                                  ),
+                                )),
+                          ),
+                        )
+          ],
+        ),
       ),
     );
   }

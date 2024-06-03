@@ -37,7 +37,7 @@ flutter:
   uses-material-design: true
 
   fonts:
-    - family: Raleway
+    - family: Bender
       fonts:
         - asset: assets/fonts/Bender.otf
         - asset: assets/fonts/Bender Light.otf

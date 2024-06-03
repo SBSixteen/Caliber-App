@@ -48,6 +48,9 @@ class _WeaponInquiryState extends ConsumerState<WeaponInquiry> {
         ),
         centerTitle: true,
         actions: [
+          IconButton(onPressed: (){
+            print(constants.currentPreset.manifest);
+          }, icon: const Icon(Icons.info_outline_rounded, color: Colors.red,)),
           isWishlist.when(data: (data) {
             if (data == 1) {
               return IconButton(

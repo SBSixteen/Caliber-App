@@ -40,7 +40,7 @@ class _WeaponShopScreenState extends State<WeaponShopScreen> {
             IconButton(onPressed: (){
               FirebaseAuth.instance.signOut();
               constants.someUser = null;
-            }, icon: const Icon(Icons.exit_to_app)),
+            }, icon: const Icon(Icons.exit_to_app, color:Colors.white,)),
           ],
           bottom: TabBar(
             labelStyle: const TextStyle(

@@ -18,11 +18,7 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
 void main() async{
-
-  testWidgets("Test Ammo Shop Card", (widgetTester) async {
-
-    await widgetTester.pumpWidget(WeaponShopCard(weapon: ));
-  });
   
+  //Give Riverpod Excuse
 
 }
