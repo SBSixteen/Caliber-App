@@ -1,120 +1,181 @@
 # Caliber
-Caliber is not your average e-store, neither it is your 'put the item in your cart and press confirm order' simulator. Infact I am surprised why none of you fucking idiots tried making this in the first place. Loser ass mfs rotting in their parent's basements drinking Mountain Dew, playing Call of Duty, getting a 4 kill streak and celebrating like it's their best acheivement of the day. Honestly, fuck this.
 
-Now the average white collar guy will look at this project and say what the fuck is up with that intro, well fuck them too. You think I enjoy programming? It is the least human thing I do the entire day. Telling a machine to follow my will, fuck off. Infact, I made this because I would rather work in a coal mine than program your fucking backend/frontend. Lame ass niggas think making public service apps makes them look like heroes. Thinking some breast cancer analyzer app will get them to where they want to be. Listen to me, your brain is already mush by the route you take to office, then your gooning session at home is like your mind in a mortar and pestle. The 5% of sanity you have left is poured into your job, you are a yes man lietuenant. You bend to the will of your superiors, you'd say yes for money, because you lack all the self respect in this world. You'd cheat to get ahead, and you would sell your soul the moment it felt it was out of your hand. When's the last time you told your superior to stick it in their ass? Probably never, but you know what, I am probably doing it as you read.
+A weapon e-store that actually understands how guns work.
 
-Anyways, Cha Cha, if you have read this far, Хорошо, let's move on to the nitty gritty details and how it all works.
+**Tech Stack:** .NET 8 (ASP.NET Core API) | Flutter | SQL Server
+
+---
+
+## The Problem
+
+Most e-commerce platforms treat products as flat items; a name, a price, an image, done. But guns aren't single items. They're assemblies of parts, and which parts exist varies dramatically by model.
+
+Now, the average developer would look at a gun store requirement and write something like this:
+
+```csharp
+class Item {
+    string Name;
+    string Description;
+    string ProductID;
+    double Price;
+    string ImageURL;
+    double Rating;
+}
+```
+
+And honestly? If this is your mental model for a weapon e-store, I invite you to revisit the thinking tank. Let me show you why.
+
+---
 
 ## Weapon Structure
 
-![alt text](https://t3.ftcdn.net/jpg/04/26/67/32/360_F_426673284_U7e0CGd8ABcuuBsnEZL595y4VODOgK00.jpg)
+![How most people see a gun](https://t3.ftcdn.net/jpg/04/26/67/32/360_F_426673284_U7e0CGd8ABcuuBsnEZL595y4VODOgK00.jpg)
 
-This is how you look at any gun.
+This is how most people look at a gun.
 
-![alt text](https://github.com/SBSixteen/Caliber-App/blob/main/assets/fonts/Screenshots/GunDissaembly.PNG?raw=true)
+![How Caliber sees a gun](https://github.com/SBSixteen/Caliber-App/blob/main/assets/fonts/Screenshots/GunDissaembly.PNG?raw=true)
 
-This is how I look at gun, that is difference between me and you.
+This is how Caliber looks at a gun. That's the difference.
 
-Now Cha Cha, if you had any ounce of Intellectual Quotient inside you, you would realize where this all is heading but if Cha Cha watches brainrot on social media daily, I explain, no worry, сволоч.
+---
 
-Now guns are made up of parts, you know it, I know it, your mom knows it. Now if you were to make a gun store, which is less probable than the day of judgement occuring while you read this, because you're a pussy obviously, you would make an item, call it a gun, something like
+## The Design Problem
 
-    class Item {
-        String name;
-        String desc;
-        String productID;
-        double price;
-        String imageURL;
-        double rating;
-    }
+Now Cha Cha, if you have any engineering intuition, you can see where this is heading. But let me walk you through it anyway.
 
-Let me tell you something retard, if this is your idea of making a gun e-store, go back to the thinking tank, and believe that the Imposter Syndrome is true. You see, a gun is made up of the parts stated above, in the picture. Now that is an AK-47, if it were a different gun, parts would be different, like really different. Sometimes a receiver is a composite of an upper and lower receiver, sometimes a barrel is made up of a gas block and a barrel. A stock may have an optional buffer tube etc. The iterations are too many, but I make list for you Cha Cha, because I am nice.
+Guns are made of parts. You know it, I know it. The image above shows an AK-47 ;  but if it were a different weapon, the parts would be different. Sometimes a receiver is a composite of upper and lower receivers. Sometimes a barrel includes a gas block. A stock may require an optional buffer tube. The variations are extensive.
 
-      "Barrel",
-      "Bipod",
-      "Bolt Assembly",
-      "Buffer Tube",
-      "Charging Handle",
-      "Chassis",
-      "Dust Cover",
-      "Front Sight",
-      "Gas Tube",
-      "Grip",
-      "Hammer",
-      "Handguard",
-      "Lower Handguard",
-      "Magazine",
-      "Muzzle",
-      "Optic",
-      "Pistol Slide",
-      "Platform",
-      "Rear Sight",
-      "Stock",
-      "Trigger",
-      "Upper Handguard",
-      "Upper Receiver"    
+Here's a partial list of possible attachment positions:
 
-Now Cha Cha, I can feel blood running, yours. Think about it Cha Cha, the OOP circus SBSixteen had to do to make this. Now Cha Cha, don't be deluded, don't say that probably the guns are something like
+```
+Barrel, Bipod, Bolt Assembly, Buffer Tube, Charging Handle, 
+Chassis, Dust Cover, Front Sight, Gas Tube, Grip, Hammer, 
+Handguard, Lower Handguard, Magazine, Muzzle, Optic, 
+Pistol Slide, Platform, Rear Sight, Stock, Trigger, 
+Upper Handguard, Upper Receiver
+```
 
-    class Item {
-        String name;
-        String desc;
-        String productID;
-        double price;
-        String imageURL;
-        double rating;
-        Attachment? Barrel;
-        Attachment? Bipod;
-        ...
-        ...
-        ...
-        Attachment? UpperHandguard;
-        Attachment? UpperRecevier;
-    }
+Now Cha Cha, I can already hear you thinking. You might propose something like this:
 
-It is not like that. Think about it Cha Cha, imagine you have froot stall, you have pineapple, coconut and berry, you also have price board which say pineapple 30rub, coconut 25rub and berry 18rub. Now Cha Cha, wouldn't it be weird if you put a price tag Banana 12rub? Yes it would be Cha Cha because your stall does not have banana. Similarly, if gun don't have bipod, why declare variable of bipod. Now Cha Cha, don't say you have put Nullable after attachment, which means "idk it may be there or not?" but Cha Cha, this is your imagination, not mine. The Item class is your head, not mine. Also clutter Cha Cha, think about the Clutter!
+```csharp
+class Item {
+    string Name;
+    string Description;
+    string ProductID;
+    double Price;
+    string ImageURL;
+    double Rating;
+    Attachment? Barrel;
+    Attachment? Bipod;
+    // ...
+    Attachment? UpperHandguard;
+    Attachment? UpperReceiver;
+}
+```
 
-I did the weapon attachments by using a simple Dictionary. It is basically <String, Attachment>. Now the keys are the part position and entries are the attachment. Now patience Cha Cha, I know you have questions. Nothing good comes out of quick. Now how it works, first we do API call, lets say you like this gun
+But think about it, Cha Cha. Imagine you have a fruit stall selling pineapples, coconuts, and berries. Your price board lists each one. Now, wouldn't it be strange to include "Banana: 12 rubles" when your stall doesn't carry bananas?
 
-![image](https://github.com/SBSixteen/Caliber-App/assets/77447920/f0608d7b-a578-48d0-a87e-8666ed79f35d)
+The same logic applies here. If a gun doesn't support a bipod, why declare a bipod field? Yes, you've marked it nullable;  "maybe it's there, maybe not"; but that's your imagination compensating for a flawed model. Think about the clutter, Cha Cha. Think about the clutter.
 
-Now you want to customize or buy it, it is simple, you tap and this happens:
+---
 
-    API : https://localhost:7069/api/WeaponStructure/GetWeaponStructureOf?weaponName=AK-74M
+## The Solution
 
-    Response:
-    [
-      "Magazine",
-      "Dust Cover",
-      "Muzzle",
-      "Handguard",
-      "Platform",
-      "Rear Sight",
-      "Grip",
-      "Stock"
-    ]
+Caliber uses a `Dictionary<string, Attachment>` where keys are part positions and values are the attachments. The structure is populated dynamically based on each weapon's actual configuration.
 
-Now the mobile knows what parts gun have, the dictionary is populated but no entries. To get entry, we do
+Here's how it works. Say you're browsing and you like this gun:
 
-    API : https://localhost:7069/api/Attachment/GetDefaultKitOfWeapon?gunname=AK-74M
+![Gun selection](https://github.com/SBSixteen/Caliber-App/assets/77447920/f0608d7b-a578-48d0-a87e-8666ed79f35d)
 
-    Response : Default Weapon Parts of this gun.
+You tap to customize or purchase. First, the app queries the weapon's structure:
 
-Now the response is long Cha Cha, it would make for bad reading experience, but I can give you one item from this list of parts
+```
+GET https://localhost:7069/api/WeaponStructure/GetWeaponStructureOf?weaponName=AK-74M
 
-    {
-    "attachmentName": "6L23",
-    "attachmentDescription": "30-round polymer Izhmash 6L23 magazine for 5.45x39 ammo, for AK-74 and compatible systems.",
-    "attachmentPart": "Magazine",
-    "attachmentMake": "Izhmash Factories",
-    "attachmentPrice": 1337,
-    "attachmentPiccatiny_Top": 0,
-    "attachmentPiccatiny_Bottom": 0,
-    "attachmentPiccatiny_Left": 0,
-    "attachmentPiccatiny_Right": 0,
-    "attachment_AttachesToRail": 0,
-    "attachment_AttachesToDovetail": 0,
-    "attachment_DovetailMount": 0
-    }
+Response:
+[
+  "Magazine",
+  "Dust Cover",
+  "Muzzle",
+  "Handguard",
+  "Platform",
+  "Rear Sight",
+  "Grip",
+  "Stock"
+]
+```
 
-Now (attachmentPart == Position) and you should work it out by yourself now Cha Cha. This leads to the weapon creator which I am too lazy to explain Cha Cha, why don't you message me on discord and I tell you how it works. For now I will have Big Shot Cream Soda. I will update this someday! Till then Cha Cha
+Now the mobile client knows exactly which parts this gun supports. The dictionary is initialized with these keys ;  but no values yet.
+
+To populate the default configuration:
+
+```
+GET https://localhost:7069/api/Attachment/GetDefaultKitOfWeapon?gunname=AK-74M
+
+Response: [Array of default attachments for this weapon]
+```
+
+Here's one item from that response:
+
+```json
+{
+  "attachmentName": "6L23",
+  "attachmentDescription": "30-round polymer Izhmash 6L23 magazine for 5.45x39 ammo, for AK-74 and compatible systems.",
+  "attachmentPart": "Magazine",
+  "attachmentMake": "Izhmash Factories",
+  "attachmentPrice": 1337,
+  "attachmentPiccatiny_Top": 0,
+  "attachmentPiccatiny_Bottom": 0,
+  "attachmentPiccatiny_Left": 0,
+  "attachmentPiccatiny_Right": 0,
+  "attachment_AttachesToRail": 0,
+  "attachment_AttachesToDovetail": 0,
+  "attachment_DovetailMount": 0
+}
+```
+
+The `attachmentPart` field corresponds to the dictionary key. The rest follows naturally.
+
+---
+
+## Key Features
+
+- **Dynamic weapon modeling**: No hardcoded nullable fields. Each gun defines only the parts it actually supports.
+- **Attachment compatibility system**: Picatinny rails, dovetail mounts, and attachment constraints are modeled in the data.
+- **Weapon customization flow**: Users can swap parts and see pricing updates in real-time.
+- **Clean separation**: .NET API handles business logic and data; Flutter handles presentation.
+
+---
+
+## What's Next
+
+The weapon creator system builds on this foundation; allowing users to assemble custom configurations from compatible parts. Documentation for that is coming soon.
+
+Until then, Cha Cha. До свидания.
+
+---
+
+## Running Locally
+
+### Backend (.NET API)
+```bash
+cd CaliberAPI
+dotnet restore
+dotnet run
+```
+
+### Mobile (Flutter)
+```bash
+cd caliber_mobile
+flutter pub get
+flutter run
+```
+
+### Database
+SQL Server required. Connection string configured in `appsettings.json`.
+
+---
+
+## License
+
+MIT
